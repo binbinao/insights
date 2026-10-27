@@ -1,0 +1,172 @@
+---
+/**
+ * 独立研究站首页
+ *
+ * 定位：不是简历，是"能做出判断"的证据集合。
+ * 原则：每篇内容都标来源、标日期、标证据等级。
+ */
+import ResearchLayout from '../layouts/ResearchLayout.astro';
+
+const title = '行业研究与战略分析笔记 · Robin Ji';
+const description =
+  '工业软件与汽车芯片的深度分析、企业 AI 落地的证据链研究、以及用完整咨询流程跑通的战略判断实战复盘。每条结论标注来源与日期，区分「报告原文确认」「媒体转述」「分析师判断」。';
+
+const sections = [
+  {
+    href: '/insights/methodology/',
+    title: '方法论',
+    en: 'Methodology',
+    desc: '10 个战略咨询框架的「何时用 / 何时别用 / 常见误用 / 真实批评」，以及 8 个推理工具与 12 项交付物门禁。',
+    count: '10 框架 · 8 工具 · 12 门禁',
+    accent: 'bg-sky-500',
+  },
+  {
+    href: '/insights/cases/',
+    title: '实战复盘',
+    en: 'Case Studies',
+    desc: '两个用完整咨询流程 S0–S7 跑通的案例：一个外部题练量化分析，一个自己的题练组织判断。',
+    count: '2 案例 · 10 项红队判决',
+    accent: 'bg-emerald-500',
+  },
+  {
+    href: '/insights/industries/',
+    title: '行业分析',
+    en: 'Industry Analysis',
+    desc: '工业软件商业模式、吉利造芯、比亚迪半导体、地平线机器人 —— 全部基于上市公司年报与官方披露。',
+    count: '4 篇深度分析',
+    accent: 'bg-amber-500',
+  },
+  {
+    href: '/insights/proposals/',
+    title: '交付方法',
+    en: 'Delivery Methods',
+    desc: '把一次模糊委托变成可判定交付物的方法：价值切片交付法，含红队质疑与 KPI 口径。',
+    count: '1 份方法论提案',
+    accent: 'bg-rose-500',
+  },
+];
+
+const principles = [
+  {
+    t: '每个数字有出处',
+    d: '报告原文、公告、年报 PDF、监管文件优先。媒体转述单独标注，查无实据的直接剔除。',
+  },
+  {
+    t: '区分三种可信度',
+    d: '「报告原文确认」「媒体转述」「分析师判断」三档标注。宁可写「未找到可靠来源」，也不用弱证据填空。',
+  },
+  {
+    t: '框架带边界',
+    d: '每个框架都写清什么时候别用 —— 这是「会用框架」和「会做咨询」的分界线。',
+  },
+  {
+    t: '结论可被推翻',
+    d: '主结论都是条件式的，写明翻转条件；红队以书面判决落地，结论必须被改写或记录不修改的理由。',
+  },
+];
+---
+
+<ResearchLayout title={title} description={description}>
+  <div class="mx-auto max-w-5xl px-5 py-14 lg:py-20">
+    <!-- ── Hero ── -->
+    <header class="mb-16">
+      <p class="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-accent-600 dark:text-accent-400">
+        Industrial AI · Strategy · Evidence
+      </p>
+      <h1 class="text-3xl font-bold leading-tight text-slate-900 lg:text-5xl">
+        行业研究与<br class="hidden sm:block" />战略分析笔记
+      </h1>
+      <p class="mt-6 max-w-2xl text-base leading-relaxed text-slate-600 dark:text-slate-300 lg:text-lg">
+        这里放的是<strong class="text-slate-900 dark:text-white">判断的证据</strong>，不是履历。
+        工业软件与汽车芯片的深度分析、企业 AI 落地的证据链研究，
+        以及用完整咨询流程跑通并被红队驳回过的战略判断。
+      </p>
+      <div class="mt-7 flex flex-wrap gap-3 text-sm">
+        <a
+          href="/insights/methodology/"
+          class="rounded-lg bg-accent-600 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-accent-700"
+        >
+          从方法论开始
+        </a>
+        <a
+          href="/insights/cases/"
+          class="rounded-lg border border-slate-300 bg-white px-5 py-2.5 font-semibold text-slate-700 transition-colors hover:border-accent-500 hover:text-accent-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+        >
+          看两个实战复盘
+        </a>
+      </div>
+    </header>
+
+    <!-- ── 四个板块 ── -->
+    <section class="mb-16">
+      <h2 class="mb-2 text-2xl font-bold text-slate-900 dark:text-white">内容</h2>
+      <p class="mb-7 text-sm text-slate-500 dark:text-slate-400">
+        四条线，各自独立又互为支撑 —— 方法论是地图，实战是走过的路，分析是路上的观察。
+      </p>
+      <div class="grid gap-4 sm:grid-cols-2">
+        {
+          sections.map((s) => (
+            <a
+              href={s.href}
+              class="group rounded-2xl border border-slate-200 bg-white p-6 transition-all hover:border-accent-400 hover:shadow-lg hover:shadow-accent-500/5 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:border-accent-500/60"
+            >
+              <div class="mb-4 flex items-center justify-between">
+                <span class={`h-1.5 w-10 rounded-full ${s.accent}`} />
+                <span class="font-mono text-xs text-slate-400">{s.count}</span>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white">
+                {s.title}
+                <span class="ml-2 text-sm font-normal text-slate-400">{s.en}</span>
+              </h3>
+              <p class="mt-2.5 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{s.desc}</p>
+              <span class="mt-4 inline-block text-sm font-semibold text-accent-600 transition-transform group-hover:translate-x-1 dark:text-accent-400">
+                进入 →
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ── 原则 ── -->
+    <section class="mb-16">
+      <h2 class="mb-2 text-2xl font-bold text-slate-900 dark:text-white">写作原则</h2>
+      <p class="mb-7 text-sm text-slate-500 dark:text-slate-400">
+        这些不是风格偏好，是防止内容变成"看起来专业的二手转述"的硬约束。
+      </p>
+      <div class="grid gap-3 sm:grid-cols-2">
+        {
+          principles.map((p) => (
+            <div class="rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900/50">
+              <p class="flex items-start gap-2.5 text-sm font-semibold text-slate-900 dark:text-white">
+                <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-500" />
+                {p.t}
+              </p>
+              <p class="mt-2 pl-5 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{p.d}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ── 关于 ── -->
+    <section class="rounded-2xl border border-slate-200 bg-white p-7 dark:border-slate-800 dark:bg-slate-900/50">
+      <h2 class="mb-3 text-xl font-bold text-slate-900 dark:text-white">关于作者</h2>
+      <p class="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+        Robin Ji（纪多斌），18.5 年 IT 与数字化经验，工业软件 + 云计算双背景：
+        在西门子、ANSYS/Synopsys、GE、Carestream、TE Connectivity 做过乙方，
+        在奇瑞捷豹路虎做过甲方工程 IT 总监，现在在头部云厂商做工业行业架构师与计算产品架构师。
+      </p>
+      <p class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+        这个站的内容大多来自真实项目的副产品 —— 客户现场冒出的卡点、要判断的技术选型、
+        以及不得不做取舍的账户决策。整理下来，供同样在做工业数字化的人参考。
+      </p>
+      <a
+        href="/insights/about/"
+        class="mt-4 inline-block text-sm font-semibold text-accent-600 hover:underline dark:text-accent-400"
+      >
+        更多信息 →
+      </a>
+    </section>
+  </div>
+</ResearchLayout>

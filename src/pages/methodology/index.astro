@@ -1,0 +1,377 @@
+---
+/**
+ * /methodology/ — 战略咨询框架库摘要
+ *
+ * 完整版（61 个已核验来源、每框架中国案例）见 GitHub 仓库。
+ * 本页只保留最关键的：每个框架「什么时候别用」+ 三条原文级纠偏。
+ */
+import ResearchLayout from '../../layouts/ResearchLayout.astro';
+
+const title = '战略咨询框架地图 · 何时用 / 何时别用 · Robin Ji';
+const description =
+  '10 个战略分析框架的适用边界与常见误用，附真实学术批评与原文级纠偏。61 个已核验来源。区别「会用框架」和「会做咨询」的关键在边界，不在记忆。';
+
+const frameworks = [
+  {
+    n: 1,
+    name: '波特五力',
+    one: '行业长期平均利润率由五种结构性力量决定',
+    dont: [
+      '行业边界没定义清楚时',
+      '产业利润不是零和时（生态型 / 合作型战略可以做大蛋糕，完全不在框架内）',
+      '中小企业、或自身无法影响环境的公司',
+      '新兴行业 / 技术快速迭代期',
+      '平台生态型业务（缺第六力：互补者）',
+      '用来解释超竞争利润 —— 行业层框架解释不了异常值',
+    ],
+    misuse: '打分化（1–5 分加权求和）是最常见误用，且五力相互依赖，阻碍因果推断',
+    critic: 'Pangarkar (2024)：零和视角、边界主观、难以操作化；Brandenburger & Nalebuff：模型有一个洞，即互补者的力量',
+  },
+  {
+    n: 2,
+    name: '价值链分析',
+    one: '竞争优势来自相互关联的活动系统；利润率 = 买方愿付价值 − 全链活动成本',
+    dont: [
+      '分析对象是行业而非企业时（框架错配 —— 价值链是企业内部工具）',
+      '企业规模太小、撑不起成本分摊时',
+      '行业竞争力主要来自网络效应或生态位时',
+      '分析对象是商业模式本身时',
+    ],
+    misuse: '把价值链画成上下游链条，然后声称"分析了五力"或"分析了价值链"',
+    critic: 'Stabell & Fjeldstad (1998)：只覆盖 long-linked 一种技术类型，需扩展为 value chain / value shop / value network',
+  },
+  {
+    n: 3,
+    name: '增长-份额矩阵 (BCG)',
+    one: '按增速与相对份额给业务单元定位',
+    dont: [
+      '单一业务公司（矩阵是业务组合工具，单业务用它是零信息量）',
+      '业务之间没有现金互济关系时（底层逻辑是现金牛养明星）',
+      '增长来源不是市场份额可解释的行业（按人头/订阅数/算力定价）',
+    ],
+    misuse: '用它决定"卖掉哪块" —— 缺乏评估基准；追求排序而非定位',
+    critic: 'Eisenhardt & Brown (1999, HBR)《Patching》：矩阵忽略业务单元间的依赖与动态',
+  },
+  {
+    n: 4,
+    name: '通用战略',
+    one: '成本领先 / 差异化 / 聚焦',
+    dont: [
+      '当成本领先与差异化并不冲突时（最被低估的边界）',
+      '企业根本不在可定义的产业中，或产业正在被重新定义时',
+      '差异化来自跨边界组合（生态、平台、多层网络）时',
+    ],
+    misuse: '"夹在中间必死" —— 这不是波特原话',
+    critic: '波特原文把「聚焦」列为三种解药之一，流行表述省掉了它（见下方纠偏 1）',
+  },
+  {
+    n: 5,
+    name: '战略集团与定位',
+    one: '识别产业内战略位置相近的群体',
+    dont: [
+      '产业内企业数量太少时（3–5 家不需要分组）',
+      '战略集团划分高度依赖主观判断时（无法靠"多画几遍"解决）',
+      '产业边界未定时',
+    ],
+    misuse: '把"位置"当"战略"；忽略群体的动态移动',
+    critic: '学术上最被诟病之处即划分的主观性 —— 不同分析师会画出不同的集团图，结论随之不同',
+  },
+  {
+    n: 6,
+    name: '商业模式画布',
+    one: '9 要素描述一个商业模式',
+    dont: [
+      '⚠️ 这是产品设计 / 创业工具，不是咨询战略工具',
+      '用它做战略诊断会得到"填格子"而非判断',
+      '分析对象是业务活动而非商业模式时（用价值链）',
+    ],
+    misuse: '与 PM 工具混淆后，把商业模式的描述当成战略判断',
+    critic: '本库特别标注：这是最常被误当作战略框架的工具',
+  },
+  {
+    n: 7,
+    name: '市场结构测算 TAM/SAM/SOM',
+    one: '测市场规模',
+    dont: [
+      '当你要的是"我们能拿到多少"时（SOM ≠ TAM × 一个百分比）',
+      '市场处在快速变化期（测算值半衰期可能只有几个月）',
+      '存在强烈的"自上而下幻觉"风险时',
+    ],
+    misuse: '只用一种路径；差异大时取平均',
+    critic: '本库实战中三法交叉差 4.5 倍（超 2 倍阈值），最终不取平均，改为条件式结论',
+  },
+  {
+    n: 8,
+    name: '业务组合与资源配置',
+    one: '把资源分配到不同业务',
+    dont: [
+      '集团内部业务之间没有共享平台/能力时',
+      '只有一个业务单元但有多个产品线时（维度不匹配，矩阵单元是 SBU 不是产品）',
+      '集团战略本身是"控股平台 + 买入分散资产"时',
+    ],
+    misuse: '资源配置算得出，但变更成本没算',
+    critic: '经典批评仍是矩阵的静态性 —— 组合管理本该处理动态，却用了静态工具',
+  },
+  {
+    n: 9,
+    name: '波特钻石 + 动态能力',
+    one: '钻石解释行业盈利差异，动态能力解释企业自身差异',
+    dont: [
+      '用钻石模型解释一家单个企业的竞争力（钻石是国家/区域层框架）',
+      '问"这家公司为什么比同行强"时 —— 应该用 RBV/动态能力',
+      '做"能力清单盘点"时（动态能力是重构能力的能力，不是能力清单）',
+    ],
+    misuse: '层级错配：拿行业层工具解释企业层现象',
+    critic: 'Teece (2007)：动态能力定位于环境不确定性高、变革快的情境；成熟稳定业务用它是过度复杂化',
+  },
+  {
+    n: 10,
+    name: '安索夫矩阵',
+    one: '现有市场/新产品 × 市场渗透/市场开发/产品开发',
+    dont: [
+      '当问题不是"增长"而是"如何竞争"时',
+      '当需要判断"这条路值不值得走"时（矩阵只列选项，不做评估）',
+      '当"产品/市场"二元切分不适合业务时（平台型、生态型、多边市场）',
+    ],
+    misuse: '按风险给四象限排序 —— 安索夫原文从未这么做过（见下方纠偏 2）',
+    critic: '安索夫自己的做法是两步：用定性标准缩减到少数几个，再用 ROI 收窄。现实中多数人只用了第一步',
+  },
+];
+
+const corrections = [
+  {
+    t: '"夹在中间必死"不是波特原话',
+    d: '已取回波特 1980《Competitive Strategy》扫描全文核实：Stuck in the Middle 位于第 2 章第 3 节、第 41 页。原文把「聚焦（focus）」列为三种解药之一 —— 流行表述省掉了它。',
+    s: 'Porter (1980) 原典扫描',
+  },
+  {
+    t: '安索夫矩阵没有风险阶梯',
+    d: '对安索夫 1957 年原文做词频统计："risk" 全篇仅出现 1 次，且在"为何多元化"的理由清单里。原文另有一句被普遍漏掉："同时推进市场渗透、市场开发和产品开发，通常是一个进步且经营良好的企业的标志。" —— 安索夫不要求四选一。',
+    s: 'Ansoff (1957) 原文词频统计',
+  },
+  {
+    t: '五力的结构解释力被高估',
+    d: 'McGahan & Porter (1997) 用 4 位 SIC 分类下的美国上市公司数据分解盈利方差：year effect 2%、industry effect 19%、corporate-parent effect 4%、business-specific effect 32%。即行业结构解释约五分之一，企业自身解释力超过三分之一 —— 这是"用五力解释一家好公司"的天花板。',
+    s: 'McGahan & Porter (1997)',
+  },
+];
+
+const tools = [
+  { t: '假设驱动', u: '写下可证伪命题 → 设计验证路径 → 达到阈值就否掉它', pit: '假设写成立场；舍不得否掉' },
+  { t: 'MECE', u: '检验工具，不是生成工具。先按逻辑自上而下拆，再拿 MECE 去检验', pit: '拿 MECE 当生成器，凑不出就硬凑' },
+  { t: '议题树 / 逻辑树', u: '从结论倒推到可验证的子问题', pit: '拆到没人能答的粒度，或停在太粗' },
+  { t: 'SCQA / 金字塔原理', u: '情境-冲突-问题-答案；结论先行', pit: '铺垫太长，听众记不住结论' },
+  { t: '商业影响估算', u: '三法交叉：自上而下 / 自下而上 / 第三方', pit: '只做一种；差异大时取平均' },
+  { t: '访谈', u: '提问设计、避免诱导、记录可引用原话', pit: '问"你觉得好不好"' },
+  { t: '红队', u: '结构化书面判决：维持 / 修改 / 放弃', pit: '只开会挑刺，不落判决' },
+  { t: '证据分级', u: 'ICD 203 1/2/3 级 + 事实锚点', pit: '把转述当原文' },
+];
+
+const gates = [
+  { id: 'G0', n: '决策者具名', d: 'D 角色必须是具名的人，不能是部门' },
+  { id: 'G2', n: '诊断无方案词', d: '诊断陈述里出现"应该/建议引入/方案是"即阻塞' },
+  { id: 'G3', n: '根假设互斥', d: '根假设 ≥3 条即退回问题定义' },
+  { id: 'G4', n: 'A 级证据 + 锚点', d: '关键结论无一手证据或缺事实锚点即退回取证' },
+  { id: 'G5', n: '三角验证 / 多源一致性', d: '定量题需两条独立路径；定性题需多个独立证据源' },
+  { id: 'G6', n: '翻转则条件化', d: '有翻转风险但结论未改写为条件式即阻塞' },
+  { id: 'G7', n: '单一排序工具', d: '同时使用多个排序工具即阻塞' },
+  { id: 'G8', n: '红队书面判决', d: '红队后结论未改写且未记录理由即阻塞' },
+  { id: 'G9', n: 'turnaround 业务所有者', d: '接管失败项目需甲方侧具名业务所有者，否则不启动' },
+  { id: 'P6', n: '决策记录', d: '汇报必须拿到决策或记录下次决策条件' },
+  { id: 'P7', n: '落地所有者', d: '每条建议需甲方所有者，不能是顾问' },
+  { id: 'P8', n: '复盘规则 ≥3 条', d: '可复用规则须具体到动作' },
+];
+
+const evidence = [
+  { lv: 'A', d: '内部数据或可核验的一手原话/文件', a: '必须有事实锚点（文件/页码/原话）' },
+  { lv: 'B', d: '单一可靠二手来源', a: '需注明转述关系' },
+  { lv: 'C', d: '多源推断或分析判断', a: '必须显式标注为判断' },
+];
+---
+
+<ResearchLayout title={title} description={description}>
+  <div class="mx-auto max-w-3xl px-5 py-12 lg:py-16">
+
+    <header class="mb-14">
+      <p class="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-slate-500">
+        方法论 · 10 框架 · 61 个已核验来源
+      </p>
+      <h1 class="text-3xl font-bold leading-tight text-slate-900 lg:text-4xl">
+        框架地图：何时用，何时别用
+      </h1>
+      <p class="mt-4 text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        网上讲框架的内容几乎只讲"是什么"。但决定你是"会用框架"还是"会做咨询"的，
+        是<strong class="text-slate-900 dark:text-white">边界</strong> —— 每个框架在什么情况下会骗你。
+      </p>
+      <div class="mt-5 rounded-xl border border-amber-200 bg-amber-50 p-4">
+        <p class="text-sm leading-relaxed text-amber-900">
+          <strong>全库通用的一条纪律</strong>（Johnson et al. 2005, <em>Strategic Management Journal</em>）：
+          工具的意义不在"分析是否正确"，而在<strong>工具如何被使用</strong> ——
+          同一张矩阵在一位管理者手里是决策辅助，在另一位手里可能只是仪式性填表。
+        </p>
+      </div>
+    </header>
+
+    <!-- ── 三条原文级纠偏 ── -->
+    <section class="mb-16">
+      <h2 class="mb-2 text-2xl font-bold text-slate-900 dark:text-white">先纠三个流传很广的说法</h2>
+      <p class="mb-7 text-sm text-slate-500 dark:text-slate-400">
+        这三条都做过原文级核验 —— 很多"战略常识"其实经不起查证。
+      </p>
+      <div class="space-y-4">
+        {
+          corrections.map((c, i) => (
+            <div class="rounded-xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900/50">
+              <div class="mb-2 flex items-baseline gap-3">
+                <span class="font-mono text-sm font-bold text-rose-500">{String(i + 1).padStart(2, '0')}</span>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">{c.t}</h3>
+              </div>
+              <p class="ml-9 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{c.d}</p>
+              <p class="ml-9 mt-3 font-mono text-xs text-slate-400">{c.s}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ── 框架表 ── -->
+    <section class="mb-16">
+      <h2 class="mb-2 text-2xl font-bold text-slate-900 dark:text-white">10 个框架的适用边界</h2>
+      <p class="mb-7 text-sm text-slate-500 dark:text-slate-400">
+        每一栏「什么时候别用」都是网上几乎不写、但决定判断质量的部分。
+      </p>
+      <div class="space-y-5">
+        {
+          frameworks.map((f) => (
+            <div class="rounded-xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900/50">
+              <div class="mb-3 flex items-baseline gap-3">
+                <span class="font-mono text-sm font-bold text-slate-400">{String(f.n).padStart(2, '0')}</span>
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white">{f.name}</h3>
+              </div>
+              <p class="mb-4 ml-9 text-sm text-slate-600 dark:text-slate-300">{f.one}</p>
+
+              <p class="mb-2 ml-9 text-sm font-semibold text-slate-800 dark:text-slate-200">什么时候别用</p>
+              <ul class="mb-4 ml-9 space-y-1.5">
+                {f.dont.map((d) => (
+                  <li class="flex gap-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                    <span class="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-rose-400" />
+                    {d}
+                  </li>
+                ))}
+              </ul>
+
+              <div class="ml-9 space-y-2 border-l-2 border-slate-200 pl-4 dark:border-slate-700">
+                <p class="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                  <span class="font-semibold text-slate-700 dark:text-slate-300">最常见误用：</span>
+                  {f.misuse}
+                </p>
+                <p class="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                  <span class="font-semibold text-slate-700 dark:text-slate-300">真实批评：</span>
+                  {f.critic}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ── 推理工具 ── -->
+    <section class="mb-16">
+      <h2 class="mb-2 text-2xl font-bold text-slate-900 dark:text-white">8 个推理工具</h2>
+      <p class="mb-7 text-sm text-slate-500 dark:text-slate-400">
+        框架是地图，工具是走法。每个工具都配了常见误用和自检问题。
+      </p>
+      <div class="overflow-x-auto rounded-xl border border-slate-200">
+        <table class="w-full min-w-[620px] text-left text-sm">
+          <thead class="bg-slate-900 text-white">
+            <tr>
+              <th class="px-4 py-3 font-semibold">工具</th>
+              <th class="px-4 py-3 font-semibold">核心用法</th>
+              <th class="px-4 py-3 font-semibold">常见误用</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 bg-white dark:bg-slate-900/50">
+            {
+              tools.map((t) => (
+                <tr>
+                  <td class="px-4 py-3 align-top font-medium text-slate-900 dark:text-white">{t.t}</td>
+                  <td class="px-4 py-3 align-top text-slate-600 dark:text-slate-300">{t.u}</td>
+                  <td class="px-4 py-3 align-top text-slate-500 dark:text-slate-400">{t.pit}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── 证据分级 ── -->
+    <section class="mb-16">
+      <h2 class="mb-2 text-2xl font-bold text-slate-900 dark:text-white">证据分级：借 ODNI ICD 203 的标准</h2>
+      <p class="mb-2 text-sm text-slate-500 dark:text-slate-400">
+        咨询业几乎不引用情报界的分析标准，但这是最值得引入的外部资产 ——
+        它强制你区分「我知道」和「我推测」。
+      </p>
+      <p class="mb-7 text-sm text-slate-500 dark:text-slate-400">
+        两条纪律：<strong class="text-slate-700 dark:text-slate-300">同一句不得混用信心等级与可能性等级</strong>
+        （"我很确定这有 60% 概率" 是非法表达）；结论卡必须写「如果这条错了，谁的决策会变、变多少」。
+      </p>
+      <div class="grid gap-3 sm:grid-cols-3">
+        {
+          evidence.map((e) => (
+            <div class="rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900/50">
+              <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-600 text-sm font-black text-white">
+                {e.lv}
+              </span>
+              <p class="mt-3 text-sm font-semibold text-slate-900 dark:text-white">{e.d}</p>
+              <p class="mt-1.5 text-sm text-slate-500 dark:text-slate-400">{e.a}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ── 门禁 ── -->
+    <section class="mb-14">
+      <h2 class="mb-2 text-2xl font-bold text-slate-900 dark:text-white">12 项交付物门禁</h2>
+      <p class="mb-2 text-sm text-slate-500 dark:text-slate-400">
+        规则不是文字描述，是可执行的校验脚本 —— 跑一次就知道交付物合不合格。
+      </p>
+      <p class="mb-7 text-sm text-slate-500 dark:text-slate-400">
+        门禁本身在实战中暴露过四个真实缺陷（表格 RAPID 表取不到 D 角色、诊断陈述跨行提取失败、
+        否定式声明被误判、以及把定性判断题当成定量题强制三角验证）——
+        <span class="text-slate-700 dark:text-slate-300">一个只会拦人、不会区分"真缺陷"和"格式差异"的门禁，活不过第三次使用。</span>
+      </p>
+      <div class="overflow-x-auto rounded-xl border border-slate-200">
+        <table class="w-full min-w-[560px] text-left text-sm">
+          <thead class="bg-slate-900 text-white">
+            <tr>
+              <th class="px-4 py-3 font-semibold">门禁</th>
+              <th class="px-4 py-3 font-semibold">名称</th>
+              <th class="px-4 py-3 font-semibold">拦截什么</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 bg-white dark:bg-slate-900/50">
+            {
+              gates.map((g) => (
+                <tr>
+                  <td class="px-4 py-3 align-top">
+                    <span class="font-mono text-xs font-bold text-emerald-700">{g.id}</span>
+                  </td>
+                  <td class="px-4 py-3 align-top font-medium text-slate-900 dark:text-white">{g.n}</td>
+                  <td class="px-4 py-3 align-top text-slate-600 dark:text-slate-300">{g.d}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <p class="border-t border-slate-200 pt-6 text-xs leading-relaxed text-slate-500 dark:border-slate-800 dark:text-slate-400">
+      完整框架库（含 61 个已核验来源、每框架的中国汽车 / 工业软件真实应用案例、全部真实批评原文）见
+      GitHub 仓库 <code class="rounded bg-slate-100 px-1.5 py-0.5 font-mono dark:bg-slate-800">research/framework_lib/框架库_v1.md</code>。
+    </p>
+  </div>
+</ResearchLayout>

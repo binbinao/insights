@@ -1,0 +1,153 @@
+---
+/**
+ * ResearchLayout — 独立研究站布局
+ *
+ * 与简历站的 BaseLayout 有意分开：
+ *  - 不做 i18n（研究内容以中文为主）
+ *  - 不挂 profile 覆盖
+ *  - 有真正的多页导航（简历站只有锚点）
+ *  - 无第三方追踪脚本
+ */
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  section?: string;
+}
+
+const { title, description, section = '' } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://binbinao.github.io').toString();
+
+const nav = [
+  { href: `${base}/`, label: '首页' },
+  { href: `${base}/methodology/`, label: '方法论' },
+  { href: `${base}/cases/`, label: '实战复盘' },
+  { href: `${base}/industries/`, label: '行业分析' },
+  { href: `${base}/proposals/`, label: '交付方法' },
+  { href: `${base}/about/`, label: '关于' },
+];
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="zh_CN" />
+    <meta name="theme-color" content="#0b1018" />
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem('insights-theme');
+          const dark = stored === 'dark' || (stored !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          document.documentElement.classList.toggle('dark', dark);
+        } catch (_) {}
+      })();
+    </script>
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <a
+      href="#main-content"
+      class="sr-only z-50 rounded-md bg-accent-700 px-4 py-2 text-sm font-semibold text-white focus:not-sr-only focus:fixed focus:top-4 focus:left-4"
+    >
+      跳到正文
+    </a>
+
+    <header class="sticky top-0 z-40 border-b border-slate-200/70 bg-[#f6f8fc]/85 backdrop-blur-xl dark:border-slate-800/80 dark:bg-[#0b1018]/85">
+      <div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-5 py-3">
+        <a href={`${base}/`} class="group flex items-center gap-2.5">
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-accent-600 text-sm font-black text-white">
+            研
+          </span>
+          <span class="hidden text-sm font-bold tracking-tight text-slate-900 sm:block dark:text-white">
+            行业研究与战略分析笔记
+          </span>
+        </a>
+
+        <nav class="flex items-center gap-1 overflow-x-auto text-sm">
+          {
+            nav.map((l) => (
+              <a
+                href={l.href}
+                class={`whitespace-nowrap rounded-lg px-3 py-1.5 transition-colors hover:bg-white hover:text-accent-700 dark:hover:bg-slate-900 dark:hover:text-accent-300 ${
+                  Astro.url.pathname === l.href ? 'bg-white font-semibold text-accent-700 dark:bg-slate-900 dark:text-accent-300' : 'text-slate-600 dark:text-slate-300'
+                }`}
+              >
+                {l.label}
+              </a>
+            ))
+          }
+        </nav>
+
+        <button
+          data-theme-toggle
+          type="button"
+          class="shrink-0 rounded-lg border border-slate-200 bg-white p-2 text-slate-600 transition-colors hover:text-accent-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
+          aria-label="切换深浅色"
+        >
+          <svg data-theme-icon-sun class="h-4 w-4 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+          </svg>
+          <svg data-theme-icon-moon class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="main-content" class="flex-1">
+      <slot />
+    </main>
+
+    <footer class="border-t border-slate-200 bg-white/70 dark:border-slate-800 dark:bg-slate-950/40">
+      <div class="mx-auto max-w-5xl px-5 py-8 text-sm">
+        <p class="text-slate-600 dark:text-slate-400">
+          <strong class="text-slate-900 dark:text-white">Robin Ji · 纪多斌</strong>
+          <span class="mx-2 text-slate-300 dark:text-slate-600">|</span>
+          工业行业 + 云计算 · 企业 AI 落地判断
+        </p>
+        <p class="mt-2 text-xs leading-relaxed text-slate-500 dark:text-slate-500">
+          本站内容为个人研究笔记，结论均标注来源与日期，区分「报告原文确认」「媒体转述」「分析师判断」。
+          分析推演不代表任何被分析企业的委托成果。
+        </p>
+        <p class="mt-3 text-xs text-slate-400 dark:text-slate-600">
+          本站不挂任何第三方追踪脚本。
+        </p>
+      </div>
+    </footer>
+
+    <script is:inline>
+      (() => {
+        const button = document.querySelector('[data-theme-toggle]');
+        if (!button) return;
+        const update = () => {
+          const dark = document.documentElement.classList.contains('dark');
+          button.setAttribute('aria-pressed', String(dark));
+          button.querySelector('[data-theme-icon-sun]')?.classList.toggle('hidden', !dark);
+          button.querySelector('[data-theme-icon-moon]')?.classList.toggle('hidden', dark);
+        };
+        button.addEventListener('click', () => {
+          const dark = !document.documentElement.classList.contains('dark');
+          document.documentElement.classList.toggle('dark', dark);
+          try {
+            localStorage.setItem('insights-theme', dark ? 'dark' : 'light');
+          } catch (_) {}
+          update();
+        });
+        update();
+      })();
+    </script>
+  </body>
+</html>

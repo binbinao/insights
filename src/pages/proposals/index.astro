@@ -1,0 +1,110 @@
+---
+/**
+ * /proposals/ — 交付方法索引
+ */
+import ResearchLayout from '../../layouts/ResearchLayout.astro';
+
+const title = '交付方法 · 价值切片交付法 · Robin Ji';
+const description =
+  '把一次模糊委托变成可判定交付物的方法：售前交付物不是方案而是判定。含切片定义公式、四个阶段、红队质疑与 KPI 口径。';
+
+const proposal = {
+  href: '/insights/proposals/value-slice-delivery/',
+  tag: '方法论提案',
+  title: '价值切片交付法',
+  sub: 'Value Slice Delivery — 把「给方案」变成「给判定」',
+  d: '售前的交付物不是一份方案，而是一个判定：这件事值不值得投、切在哪一刀、用什么放弃条件。核心是把"客户说需要"翻译成"可证伪命题"。',
+  stages: [
+    { n: 'Stage 0', t: '信号翻译', d: '把客户的模糊诉求翻译成结构化问题', cost: '0.5 天' },
+    { n: 'Stage 1', t: '切片定义', d: '可证伪命题 + 客户在意的数字 + 一周 + 放弃条件', cost: '0.5 天' },
+    { n: 'Stage 2', t: '快速证伪', d: '限定窗口内验证或否掉，不做无限 POC', cost: '1 周' },
+    { n: 'Stage 3', t: '判定放大', d: '结论成立则放大投入，否则明确放弃', cost: '0.5 天' },
+  ],
+  kpis: [
+    { n: '≤10', l: '判定周期（工作日）' },
+    { n: '≥40%', l: '命中率' },
+    { n: '≤6', l: '单商机人天' },
+    { n: '≤20%', l: '误判率' },
+  ],
+  baseline: '改进前：单商机约 8–24 人天，命中率 25%',
+};
+---
+
+<ResearchLayout title={title} description={description}>
+  <div class="mx-auto max-w-3xl px-5 py-12 lg:py-16">
+
+    <header class="mb-14">
+      <p class="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-slate-500">
+        交付方法 · 一份提案
+      </p>
+      <h1 class="text-3xl font-bold leading-tight text-slate-900 lg:text-4xl">
+        让交付物是判定，不是方案
+      </h1>
+      <p class="mt-4 text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        这份提案来自一次真实的复盘：三条话题并行推进，只有一条活了下来，
+        而当时投入的口头承诺远大于实际落地的部分。
+      </p>
+    </header>
+
+    <section class="mb-16">
+      <a
+        href={proposal.href}
+        class="group block rounded-2xl border border-slate-200 bg-white p-7 transition-all hover:border-rose-400 hover:shadow-lg hover:shadow-rose-500/5 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:border-rose-500/60"
+      >
+        <div class="mb-3 flex items-center gap-3">
+          <span class="rounded-full bg-rose-100 px-3 py-1 font-mono text-xs font-medium text-rose-800 dark:bg-rose-950 dark:text-rose-300">
+            {proposal.tag}
+          </span>
+          <span class="text-sm font-semibold text-accent-600 transition-transform group-hover:translate-x-1 dark:text-accent-400">
+            阅读全文 →
+          </span>
+        </div>
+
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white">{proposal.title}</h2>
+        <p class="mt-1.5 font-mono text-sm text-slate-500 dark:text-slate-400">{proposal.sub}</p>
+        <p class="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{proposal.d}</p>
+
+        <div class="mt-7 grid gap-3 sm:grid-cols-4">
+          {
+            proposal.stages.map((s) => (
+              <div class="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/50">
+                <p class="font-mono text-xs font-bold text-rose-600 dark:text-rose-400">{s.n}</p>
+                <p class="mt-1.5 text-sm font-semibold text-slate-900 dark:text-white">{s.t}</p>
+                <p class="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">{s.d}</p>
+                <p class="mt-2 font-mono text-xs text-slate-400">{s.cost}</p>
+              </div>
+            ))
+          }
+        </div>
+
+        <div class="mt-7 grid gap-3 sm:grid-cols-4">
+          {
+            proposal.kpis.map((k) => (
+              <div class="rounded-xl border border-emerald-200 bg-emerald-50/60 p-4 dark:border-emerald-900/40 dark:bg-emerald-950/20">
+                <span class="block text-xl font-black text-emerald-700 dark:text-emerald-400">{k.n}</span>
+                <span class="mt-0.5 block text-xs text-emerald-800 dark:text-emerald-300">{k.l}</span>
+              </div>
+            ))
+          }
+        </div>
+
+        <p class="mt-5 rounded-lg bg-slate-100 px-4 py-2.5 font-mono text-xs text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+          基线：{proposal.baseline}
+        </p>
+      </a>
+    </section>
+
+    <section class="rounded-2xl border border-slate-200 bg-white p-7 dark:border-slate-800 dark:bg-slate-900/50">
+      <h2 class="mb-4 text-lg font-bold text-slate-900 dark:text-white">为什么这个值得单独写</h2>
+      <p class="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+        绝大多数售前失败的根因不是技术能力不足，而是<strong class="text-slate-900 dark:text-white">
+        交付物形态错了</strong>：客户要的是"这件事值得做"的判定，我们给的是"这件事怎么做"的方案。
+        方案越详尽，客户越难说不 —— 而一个能被证伪的判定，客户能说"是"或"不是"。
+      </p>
+      <p class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+        切片公式只有四个要素：<strong class="text-slate-900 dark:text-white">可证伪命题 + 客户在意的数字 + 一周 + 放弃条件</strong>。
+        缺任何一项就退回：没有命题无法证伪，没有数字客户不会在意，没有时限会无限拖，没有放弃条件就不是判定。
+      </p>
+    </section>
+  </div>
+</ResearchLayout>

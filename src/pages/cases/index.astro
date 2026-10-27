@@ -1,0 +1,177 @@
+---
+/**
+ * /cases/ — 实战复盘索引
+ */
+import ResearchLayout from '../../layouts/ResearchLayout.astro';
+
+const title = '战略判断实战复盘 · Robin Ji';
+const description =
+  '两个用完整咨询流程 S0–S7 跑通的案例：一个外部题练量化分析，一个自己的题练组织判断。共 10 项书面红队判决、10 条可复用规则，交付物全部通过 12 项可执行门禁。';
+
+const cases = [
+  {
+    href: '/insights/cases/byd-chips/',
+    tag: '外部题 · 量化分析',
+    title: '比亚迪功率半导体：外供路径的可行性判断',
+    q: '这个业务单元，在外供这条路上还有没有规模化空间？集团应该继续加投、维持自用，还是收缩？',
+    c: '在 SiC 车规认证于 2027 年底前拿下 3 家以上 Tier1 定点的条件下成立：规模天花板由自用摊薄而非外供转化决定，外供是第二优先级而非增长主线。',
+    badges: ['五力', '价值链', '三法交叉', 'BCG'],
+    stats: [
+      { n: '12/12', l: '门禁通过' },
+      { n: '5', l: '红队判决' },
+      { n: '4.5×', l: '三法差异' },
+    ],
+  },
+  {
+    href: '/insights/cases/seres/',
+    tag: '自己的题 · 组织判断',
+    title: '赛力斯四条线：投入结构该往哪调',
+    q: '四条并行推进线，在护栏（≤1 天/周、不驻场、不陪标、不免费 POC）下是否值得继续投入？',
+    c: '在 10/14 重庆技术交流后线③对方能给出明确时间表的前提下成立：从"四线平推"调整为「线④为主 · 线③验证 · 线①②降为观察」，护栏不变。',
+    badges: ['关键人地图', '价值链空位', '战略集团', '信号速度'],
+    stats: [
+      { n: '12/12', l: '门禁通过' },
+      { n: '5', l: '红队判决' },
+      { n: '3', l: '断裂性质各异' },
+    ],
+  },
+];
+
+const lessons = [
+  {
+    n: 1,
+    t: '一手数据到手后，第一件事是检查它的口径能不能支撑要问的问题',
+    d: '22 亿元开票看着能回答"外供能不能成"，实际含自用，回答不了。口径不对时，精确的数字比模糊的数字更危险。',
+    c: '比亚迪',
+  },
+  {
+    n: 2,
+    t: '"客户说还行"不是信号，"客户给不给时间表"才是信号',
+    d: '此前把"已优化 ≥3 次、反馈还行"当成推进良好的依据。一个能被拖延的流程不会因为多次配合就变快。',
+    c: '赛力斯',
+  },
+  {
+    n: 3,
+    t: '根假设必须能容纳你发现的反例',
+    d: '案例二第一版根假设写"三条线同一机制"，被自己的证据推翻。教训：写的时候就问"如果三种不同现象都存在，它还成立吗"。',
+    c: '赛力斯',
+  },
+  {
+    n: 4,
+    t: '降级不等于放手',
+    d: '把一条线降为观察时，必须同时写明：关系维护成本、观察期复核日期、恢复条件。缺这三样，降级就是放弃。',
+    c: '赛力斯',
+  },
+  {
+    n: 5,
+    t: '框架不解释超常表现',
+    d: '每个框架用完后强制写一行"本框架的层级边界"，写不出来就换框架。行业层工具解释不了企业层现象。',
+    c: '比亚迪',
+  },
+  {
+    n: 6,
+    t: '"公开信息不可得"是一个合法结论',
+    d: '找不到第三方数据时，在三角验证表内标注缺失并把结论改为条件式。禁止用弱证据补位填表。',
+    c: '比亚迪',
+  },
+];
+---
+
+<ResearchLayout title={title} description={description}>
+  <div class="mx-auto max-w-3xl px-5 py-12 lg:py-16">
+
+    <header class="mb-14">
+      <p class="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-slate-500">
+        实战复盘 · S0–S7 全流程 · 门禁校验
+      </p>
+      <h1 class="text-3xl font-bold leading-tight text-slate-900 lg:text-4xl">
+        两个跑通过的判断
+      </h1>
+      <p class="mt-4 text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        不是"我读过哪些框架"，而是"我能不能把一个真实的商业问题变成一个能被拍板、
+        且经得起被质疑的判断"。两例共 10 项书面红队判决、10 条可复用规则。
+      </p>
+    </header>
+
+    <!-- ── 两个案例 ── -->
+    <section class="mb-16 space-y-6">
+      {
+        cases.map((c) => (
+          <a
+            href={c.href}
+            class="group block rounded-2xl border border-slate-200 bg-white p-7 transition-all hover:border-accent-400 hover:shadow-lg hover:shadow-accent-500/5 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:border-accent-500/60"
+          >
+            <div class="mb-3 flex flex-wrap items-center gap-3">
+              <span class="rounded-full bg-slate-100 px-3 py-1 font-mono text-xs text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                {c.tag}
+              </span>
+              <span class="text-sm font-semibold text-accent-600 transition-transform group-hover:translate-x-1 dark:text-accent-400">
+                进入 →
+              </span>
+            </div>
+
+            <h2 class="text-xl font-bold leading-snug text-slate-900 lg:text-2xl dark:text-white">{c.title}</h2>
+
+            <p class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+              <span class="font-medium text-slate-700 dark:text-slate-300">原始问题：</span>
+              {c.q}
+            </p>
+
+            <div class="mt-4 rounded-xl border border-emerald-200 bg-emerald-50/70 p-4 dark:border-emerald-900/40 dark:bg-emerald-950/20">
+              <p class="text-sm leading-relaxed text-emerald-950 dark:text-emerald-100">{c.c}</p>
+            </div>
+
+            <div class="mt-5 flex flex-wrap items-center gap-2">
+              {c.badges.map((b) => (
+                <span class="rounded bg-white px-2.5 py-1 font-mono text-xs text-slate-600 ring-1 ring-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700">
+                  {b}
+                </span>
+              ))}
+            </div>
+
+            <div class="mt-5 flex gap-6 border-t border-slate-100 pt-4 dark:border-slate-800">
+              {c.stats.map((s) => (
+                <div>
+                  <span class="block text-lg font-black text-slate-900 dark:text-white">{s.n}</span>
+                  <span class="text-xs text-slate-500 dark:text-slate-400">{s.l}</span>
+                </div>
+              ))}
+            </div>
+          </a>
+        ))
+      }
+    </section>
+
+    <!-- ── 六条教训 ── -->
+    <section class="mb-14">
+      <h2 class="mb-2 text-2xl font-bold text-slate-900 dark:text-white">两例合起来的六条教训</h2>
+      <p class="mb-7 text-sm text-slate-500 dark:text-slate-400">
+        复盘的意义不是记录做了什么，而是留下"下次会怎么做"。
+      </p>
+      <ol class="space-y-3">
+        {
+          lessons.map((l) => (
+            <li class="rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900/50">
+              <div class="flex gap-3">
+                <span class="font-mono text-sm font-bold text-slate-400">{String(l.n).padStart(2, '0')}</span>
+                <div>
+                  <p class="text-sm font-semibold text-slate-900 dark:text-white">
+                    {l.t}
+                    <span class="ml-2 rounded bg-slate-100 px-1.5 py-0.5 font-mono text-xs font-normal text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                      {l.c}
+                    </span>
+                  </p>
+                  <p class="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{l.d}</p>
+                </div>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <p class="border-t border-slate-200 pt-6 text-xs leading-relaxed text-slate-500 dark:border-slate-800 dark:text-slate-400">
+      赛力斯案例为本人账户工作的方法论复盘，客户名称为说明需要保留，未涉及任何客户机密信息。
+    </p>
+  </div>
+</ResearchLayout>

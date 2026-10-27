@@ -1,0 +1,114 @@
+---
+/**
+ * /about/ — 关于作者与本站
+ */
+import ResearchLayout from '../../layouts/ResearchLayout.astro';
+
+const title = '关于 · Robin Ji 纪多斌';
+const description =
+  '18.5 年 IT 与数字化经验，工业软件 + 云计算双背景。这个站的内容大多来自真实项目的副产品。';
+
+const timeline = [
+  { p: '甲方', t: '奇瑞捷豹路虎', d: '工程 IT 总监约 2.5 年，看过战略如何进预算、业务与 IT 的优先级冲突、变革阻力长什么样', y: '2014–2016' },
+  { p: '乙方', t: '西门子 · ANSYS/Synopsys · GE · Carestream · TE Connectivity', d: '工业软件与仿真侧的经历，构成"中国工业怎么做软件"的第一手认知', y: '2014 之前' },
+  { p: '乙方', t: '头部云厂商 · 工业行业架构师', d: '上海电气高性能计算上云 2020-11 落地，当年 130 多万公有云收入，次年约 600 万', y: '2020–' },
+  { p: '乙方', t: '头部云厂商 · 仿真云产品经理', d: '产品从 1.0 到 1.7，支撑快速 CAE 仿真环境；因组织调整被裁撤', y: '—' },
+  { p: '乙方', t: '头部云厂商 · 计算产品架构师', d: '4 年多，支持同花顺 HiThink 金融大模型 H800 训练、博世汽车电子自动驾驶训练平台', y: '—' },
+  { p: '乙方', t: '南方电网仿真云售前', d: '约 3 亿规模售前工作由我主导，后续因组织变动流失', y: '—' },
+];
+
+const why = [
+  {
+    t: '为什么这些内容是"副产品"',
+    d: '每个分析背后都有一个具体的不痛快 —— 要判断的技术选型、要取舍的账户决策、要向领导解释为什么这条线先停一停。整理下来，供同样在做工业数字化的人参考。',
+  },
+  {
+    t: '为什么每篇都标来源',
+    d: '行业分析里最常见的错误不是算错，是引用一个查不到出处的数字。半年后没人能复核，那段话就变成了噪音。标注来源本身就能过滤掉大部分噪音。',
+  },
+  {
+    t: '本站与简历的关系',
+    d: '两者刻意不互相链接。简历站是给招聘方 30 秒做决定用的，目标是转化；本站是给愿意花一小时看的人用的，目标是证明判断力。放在一起会互相稀释。',
+  },
+];
+---
+
+<ResearchLayout title={title} description={description}>
+  <div class="mx-auto max-w-3xl px-5 py-12 lg:py-16">
+
+    <header class="mb-14">
+      <p class="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-slate-500">
+        关于 · Robin Ji 纪多斌
+      </p>
+      <h1 class="text-3xl font-bold leading-tight text-slate-900 lg:text-4xl">
+        18.5 年，工业 + 云，两头都站过
+      </h1>
+      <p class="mt-4 text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        甲方做过，乙方在做。工业软件和云计算双背景，
+        现在在头部云厂商做工业行业架构师与计算产品架构师。
+      </p>
+    </header>
+
+    <section class="mb-16">
+      <h2 class="mb-6 text-2xl font-bold text-slate-900 dark:text-white">经历</h2>
+      <div class="space-y-4">
+        {
+          timeline.map((t) => (
+            <div class="rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900/50">
+              <div class="mb-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <span
+                  class={`rounded px-2 py-0.5 font-mono text-xs font-medium ${
+                    t.p === '甲方'
+                      ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+                      : 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300'
+                  }`}
+                >
+                  {t.p}
+                </span>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">{t.t}</h3>
+                <span class="font-mono text-xs text-slate-400">{t.y}</span>
+              </div>
+              <p class="text-sm leading-relaxed text-slate-600 dark:text-slate-400">{t.d}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="mb-14">
+      <h2 class="mb-6 text-2xl font-bold text-slate-900 dark:text-white">三个说明</h2>
+      <div class="space-y-4">
+        {
+          why.map((w) => (
+            <div class="rounded-xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900/50">
+              <h3 class="text-base font-bold text-slate-900 dark:text-white">{w.t}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{w.d}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="rounded-2xl border border-slate-200 bg-white p-7 dark:border-slate-800 dark:bg-slate-900/50">
+      <h2 class="mb-3 text-lg font-bold text-slate-900 dark:text-white">本站的隐私约定</h2>
+      <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-300">
+        <li class="flex gap-2.5">
+          <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-500" />
+          不挂任何第三方追踪脚本（无 GA / Plausible / Umami / Clarity）
+        </li>
+        <li class="flex gap-2.5">
+          <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-500" />
+          每次部署前跑隐私扫描脚本，命中红线字段则拒绝部署
+        </li>
+        <li class="flex gap-2.5">
+          <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-500" />
+          客户名称仅在说明分析对象时保留，不涉及任何客户机密信息
+        </li>
+        <li class="flex gap-2.5">
+          <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-500" />
+          分析推演不代表任何被分析企业的委托成果
+        </li>
+      </ul>
+    </section>
+  </div>
+</ResearchLayout>
