@@ -1,0 +1,360 @@
+---
+/**
+ * /debates/ — 红蓝辩论
+ *
+ * 把一个模糊命题拆成正反两方，用一手学术与产业证据判决。
+ * 证据等级逐条标注：已发表原文确认 / 媒体转述 / 分析师判断 / 未找到可靠来源。
+ */
+import ResearchLayout from '../../layouts/ResearchLayout.astro';
+
+const title = '当思考不再稀缺 · 红蓝辩论';
+const description =
+  'AI 时代生成成本趋近于零，人还需要为「会思考」付费吗？50 条一手来源、26 个 DOI、11 个 arXiv 编号。判决：生成不再稀缺，判断依然稀缺，且判断总成本正在上升。';
+---
+
+<ResearchLayout title={title} description={description}>
+<section class="max-w-3xl mx-auto px-6 py-16">
+  <p class="text-sm text-slate-500 uppercase tracking-widest mb-4">红蓝辩论 · 2026-10-28</p>
+  <h1 class="text-4xl font-bold text-slate-900 mb-4">当思考不再稀缺</h1>
+  <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+    辩题：AI 时代生成成本趋近于零，人还需要为「会思考」付费吗？
+    证据来自 <span class="font-mono text-sm">50</span> 条一手来源、<span class="font-mono text-sm">26</span> 个 DOI、
+    <span class="font-mono text-sm">11</span> 个 arXiv 编号。
+  </p>
+
+  <div class="rounded-xl border border-amber-300 bg-amber-50 p-6 mb-10">
+    <p class="font-semibold text-amber-900 mb-2">判决摘要</p>
+    <p class="text-amber-950 leading-relaxed">
+      <strong>蓝方胜，但命题必须改写才能成立。</strong>
+      原命题「思考不再稀缺」字面为假 —— 证据从未显示判断不再稀缺。成立的是它的精确版本：
+      <strong>生成不再稀缺，判断依然稀缺，而且在很多真实工作流里，判断的总成本正在上升。</strong>
+    </p>
+  </div>
+
+  <h2 class="text-2xl font-bold text-slate-900 mt-12 mb-4">0 · 先把命题拆对</h2>
+  <p class="text-slate-700 leading-relaxed mb-4">原命题混淆了两件不同的事。拆开看：</p>
+  <div class="overflow-x-auto mb-8">
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-slate-100 text-left">
+          <th class="px-4 py-3 font-semibold text-slate-800 border border-slate-200">层</th>
+          <th class="px-4 py-3 font-semibold text-slate-800 border border-slate-200">是否稀缺</th>
+          <th class="px-4 py-3 font-semibold text-slate-800 border border-slate-200">2026 事实</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="px-4 py-3 border border-slate-200 text-slate-700">生成（想出方案、写出文字）</td>
+          <td class="px-4 py-3 border border-slate-200 text-emerald-700 font-semibold">否</td>
+          <td class="px-4 py-3 border border-slate-200 text-slate-700">价格塌到接近零</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3 border border-slate-200 text-slate-700">判断（定义问题、辨别真假、承担后果）</td>
+          <td class="px-4 py-3 border border-slate-200 text-rose-700 font-semibold">是</td>
+          <td class="px-4 py-3 border border-slate-200 text-slate-700">总成本不降，部分场景上升</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="text-slate-700 leading-relaxed mb-10">
+    真正的战场是<strong>成本结构位移</strong>：生成成本的下降速度 ≠ 判断成本的下降速度。
+  </p>
+
+  <h2 class="text-2xl font-bold text-slate-900 mt-12 mb-4">1 · 蓝方（正方）</h2>
+
+  <h3 class="text-lg font-semibold text-slate-800 mt-8 mb-3">1.1 机制证据：认知努力没有消失，位移了</h3>
+  <p class="text-slate-700 leading-relaxed mb-3">
+    <strong>Lee et al., CHI 2025</strong>（CMU + Microsoft Research，DOI 10.1145/3706598.3713778），
+    n=319 名知识工作者，936 个真实工作场景。
+  </p>
+  <blockquote class="border-l-4 border-blue-400 pl-4 my-4 italic text-slate-700 bg-slate-50 py-3">
+    "higher confidence in GenAI is associated with less critical thinking, while higher self-confidence is associated with more critical thinking."
+  </blockquote>
+  <p class="text-slate-700 leading-relaxed mb-3">
+    AI 让<strong>信息收集</strong>变便宜，同时让<strong>信息验证</strong>变贵 —— 认知努力从 Knowledge/Comprehension 层
+    <strong>位移</strong>到 Evaluation 层。
+  </p>
+  <p class="text-slate-700 leading-relaxed mb-6">
+    这条为什么是全场最硬的机制证据：<strong>它不谈退化，只谈位移。</strong>AI 没有取消判断，它把判断从「产出的一部分」挤成了「产出的独立工序」。
+  </p>
+
+  <h3 class="text-lg font-semibold text-slate-800 mt-8 mb-3">1.2 因果证据：撤走 AI 之后，判断力不升反降</h3>
+  <p class="text-slate-700 leading-relaxed mb-3">
+    <strong>Bastani et al., PNAS 2025</strong>（预注册 RCT，近千名高中生）：
+  </p>
+  <ul class="list-disc pl-6 space-y-1 text-slate-700 leading-relaxed mb-6">
+    <li>有 AI 时成绩 <span class="font-mono font-semibold text-emerald-700">+48%</span></li>
+    <li>撤走 AI 后，<span class="font-mono font-semibold text-rose-700">比从未用过 AI 的对照组低 17%</span></li>
+  </ul>
+
+  <h3 class="text-lg font-semibold text-slate-800 mt-8 mb-3">1.3 系统证据：AI 自动化的是「生成」，不是「判断」</h3>
+  <ul class="list-disc pl-6 space-y-1 text-slate-700 leading-relaxed mb-6">
+    <li><strong>Anthropic Economic Index 第四期</strong>（厂商一手 PDF）：API 端 <span class="font-mono font-semibold">76%</span> 交互属自动化，directive（指令执行）占 <span class="font-mono font-semibold">64%</span> —— 即生成</li>
+    <li>augmentation 里的 validation 模式，定义就是「人类拿 AI 输出回来检查」</li>
+  </ul>
+
+  <h3 class="text-lg font-semibold text-slate-800 mt-8 mb-3">1.4 决定性证据：人机组合在决策任务上显著更差</h3>
+  <p class="text-slate-700 leading-relaxed mb-3">
+    <strong>Vaccaro, Almaatouq &amp; Malone, Nature Human Behaviour 2024;8(12):2293–2303</strong>
+    （DOI 10.1038/s41562-024-02024-1）—— <strong>预注册元分析，106 项研究，370 个效应量</strong>。
+  </p>
+  <blockquote class="border-l-4 border-blue-400 pl-4 my-4 italic text-slate-700 bg-slate-50 py-3 text-sm">
+    "human–AI combinations performed significantly worse than the best of humans or AI alone (Hedges' g = −0.23; 95% CI, −0.39 to −0.07)... performance losses in tasks that involved making decisions and significantly greater gains in tasks that involved creating content. Finally, when humans outperformed AI alone, we found performance gains in the combination, but when AI outperformed humans alone, we found losses."
+  </blockquote>
+  <ol class="list-decimal pl-6 space-y-2 text-slate-700 leading-relaxed mb-6">
+    <li>人机组合显著劣于「人或 AI 中更强的那个」</li>
+    <li>决策类任务 → 组合下降；内容创作类任务 → 组合上升</li>
+    <li><strong>AI 比人强时，组合有损失；人比 AI 强时，组合有增益</strong></li>
+  </ol>
+  <div class="rounded-lg bg-blue-50 border border-blue-200 p-5 mb-6">
+    <p class="text-blue-950 leading-relaxed">
+      第 3 条是全场的核心：<strong>在 AI 比你强的地方用 AI，你会变差；在 AI 比你弱的地方用 AI，你会变好。而判断「哪里是哪里」—— 恰恰就是判断本身。</strong>
+    </p>
+  </div>
+
+  <h3 class="text-lg font-semibold text-slate-800 mt-8 mb-3">1.5 蓝方最锋利的一刀：企业解决产能问题的唯一办法是减少判断</h3>
+  <p class="text-slate-700 leading-relaxed mb-3">
+    <strong>arXiv:2607.01904</strong>（802 人 / 196,212 个 PR）：产出上升，但 90 分位交付周期爬至
+    <span class="font-mono font-semibold text-rose-700">66 小时</span>，而恢复方式是「<strong>让更多 PR 不经过审查</strong>」。
+  </p>
+  <p class="text-slate-700 leading-relaxed mb-6">
+    这条把整个论证闭环了：生成便宜之后，组织面对产能问题，唯一能立刻兑现的解法就是<strong>减少判断</strong>。
+    这不是判断变便宜了 —— 是判断被当作成本项砍掉了。
+  </p>
+
+  <h2 class="text-2xl font-bold text-slate-900 mt-14 mb-4">2 · 红方（反方）</h2>
+
+  <h3 class="text-lg font-semibold text-slate-800 mt-8 mb-3">2.2 AI 确实在提升判断质量，而且规模巨大</h3>
+  <div class="overflow-x-auto mb-6">
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-slate-100 text-left">
+          <th class="px-4 py-3 font-semibold text-slate-800 border border-slate-200">证据</th>
+          <th class="px-4 py-3 font-semibold text-slate-800 border border-slate-200">规模</th>
+          <th class="px-4 py-3 font-semibold text-slate-800 border border-slate-200">结果</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="px-4 py-3 border border-slate-200">Tutor CoPilot (RCT)</td>
+          <td class="px-4 py-3 border border-slate-200">低水平辅导员 +9pp</td>
+          <td class="px-4 py-3 border border-slate-200">AI 增强低水平者的判断</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3 border border-slate-200">MASAI 乳腺筛查 (RCT)</td>
+          <td class="px-4 py-3 border border-slate-200">10.5 万人</td>
+          <td class="px-4 py-3 border border-slate-200">显著降低漏检</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3 border border-slate-200">Brynjolfsson et al., QJE 2025</td>
+          <td class="px-4 py-3 border border-slate-200">5,179 名客服</td>
+          <td class="px-4 py-3 border border-slate-200">整体 +15%，新人 +34%</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3 border border-slate-200">Goh et al., Nature Medicine 2024</td>
+          <td class="px-4 py-3 border border-slate-200">92 名医生</td>
+          <td class="px-4 py-3 border border-slate-200">管理推理显著提升</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3 border border-slate-200">Choi &amp; Schwarcz（法律）</td>
+          <td class="px-4 py-3 border border-slate-200">—</td>
+          <td class="px-4 py-3 border border-slate-200">质量提升不均，速度大幅提升</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="text-lg font-semibold text-slate-800 mt-8 mb-3">2.4 反方最强的一击：反向证据的共同前提恰恰是蓝方论点</h3>
+  <p class="text-slate-700 leading-relaxed mb-3">仔细看上面所有正向案例，它们共享一个前提：</p>
+  <blockquote class="border-l-4 border-emerald-400 pl-4 my-4 italic text-slate-700 bg-emerald-50 py-3">
+    人类保有最终验证权与担责权，且通常伴随额外的人类侧投入。
+  </blockquote>
+  <ul class="list-disc pl-6 space-y-1 text-slate-700 leading-relaxed mb-6">
+    <li>Tutor CoPilot：教师仍是判断者，AI 只是辅助</li>
+    <li>MASAI：医生最终负责，AI 是第二读者</li>
+    <li>QJE 客服：AI 传播最佳实践给新人，<strong>判断被增强，不是被自动化</strong></li>
+    <li>Nature Medicine：医生仍承担治疗决策</li>
+  </ul>
+  <div class="rounded-lg bg-emerald-50 border border-emerald-200 p-5 mb-6">
+    <p class="text-emerald-950 leading-relaxed">
+      <strong>反向证据不是蓝方的软肋，是蓝方的护城河 —— 它证明了「判断没有被自动化」。</strong>
+    </p>
+  </div>
+
+  <h2 class="text-2xl font-bold text-slate-900 mt-14 mb-4">3 · 判决</h2>
+  <p class="text-slate-700 leading-relaxed mb-4">三条独立证据链互相印证：</p>
+  <div class="overflow-x-auto mb-8">
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-slate-100 text-left">
+          <th class="px-4 py-3 font-semibold text-slate-800 border border-slate-200">类型</th>
+          <th class="px-4 py-3 font-semibold text-slate-800 border border-slate-200">证据</th>
+          <th class="px-4 py-3 font-semibold text-slate-800 border border-slate-200">证明了什么</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="px-4 py-3 border border-slate-200">机制</td>
+          <td class="px-4 py-3 border border-slate-200">Lee et al. CHI 2025</td>
+          <td class="px-4 py-3 border border-slate-200">认知努力从收集位移到验证</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3 border border-slate-200">因果</td>
+          <td class="px-4 py-3 border border-slate-200">Bastani et al. PNAS 2025</td>
+          <td class="px-4 py-3 border border-slate-200">撤走 AI 后判断力低于对照组 17%</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3 border border-slate-200">系统</td>
+          <td class="px-4 py-3 border border-slate-200">Anthropic AEI 第四期</td>
+          <td class="px-4 py-3 border border-slate-200">AI 自动化的是生成类任务</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3 border border-slate-200">元分析</td>
+          <td class="px-4 py-3 border border-slate-200">Vaccaro et al. NHB 2024</td>
+          <td class="px-4 py-3 border border-slate-200">决策任务人机组合负向 g=−0.23</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="text-lg font-semibold text-slate-800 mt-8 mb-3">3.3 蓝方必须主动交代的五个弱点</h3>
+  <ol class="list-decimal pl-6 space-y-2 text-slate-700 leading-relaxed mb-6">
+    <li>微软/CMU 那篇是<strong>自我报告调查</strong>，非行为实验 → 用 Bangerl et al. 与 Bastani 补位</li>
+    <li>Kosmyna「认知负债」是 arXiv 预印本、n=18/组、作者有立场 → 只引 83% 与 55%</li>
+    <li>METR 的 19% 慢化已被 METR 自己更新 → 只引「感知—实际脱节」这个恒定结论</li>
+    <li>组织科学的「AI 稿件质量下降」被编辑过滤挡住（70%+ AI 稿件 R&amp;R 率 3.2% vs 低 AI 稿件 11.9%）</li>
+    <li>Vaccaro 的 g=−0.23 是<strong>小效应</strong>，作者明确指出存在发表偏倚</li>
+  </ol>
+
+  <h3 class="text-lg font-semibold text-slate-800 mt-8 mb-3">3.4 尚未找到可靠来源的（诚实披露）</h3>
+  <ul class="list-disc pl-6 space-y-1 text-slate-700 leading-relaxed mb-10">
+    <li>「MSR/CMU 的 AI 用户 vs 非 AI 用户信息收集/验证/转移能力对照实验」—— <strong>该团队未发表对应实验</strong>，用 Bangerl et al. CHI 2025 替代</li>
+    <li>金融领域幻觉率仅有 arXiv 预印本</li>
+    <li>「撤稿率上升由 AI 导致」的因果链无可靠来源，不可宣称</li>
+  </ul>
+
+  <h2 class="text-2xl font-bold text-slate-900 mt-14 mb-4">4 · 这场辩论对你的意义</h2>
+
+  <h3 class="text-lg font-semibold text-slate-800 mt-8 mb-3">4.1 你的护城河正好在红方手里</h3>
+  <p class="text-slate-700 leading-relaxed mb-4">
+    红方最强的论证是：所有 AI 提升判断的成功案例，前提都是人类保有验证权与担责权。而你上周做的事正好是这个模式：
+  </p>
+  <div class="overflow-x-auto mb-6">
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-slate-100 text-left">
+          <th class="px-4 py-3 font-semibold text-slate-800 border border-slate-200">AI 生成的</th>
+          <th class="px-4 py-3 font-semibold text-slate-800 border border-slate-200">你的持疑动作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="px-4 py-3 border border-slate-200">索辰收入结构 42.5% / 37.8% / 13.8% / 9.1% / 12.0%</td>
+          <td class="px-4 py-3 border border-slate-200"><strong>加起来是 115.2%</strong> —— 追问一句就露馅</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3 border border-slate-200">「工业自动化软件产品占 37.8%」</td>
+          <td class="px-4 py-3 border border-slate-200">回年报 p69 → <strong>实际 6.34%，夸大约 6 倍</strong></td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3 border border-slate-200">20.7 万字研究报告</td>
+          <td class="px-4 py-3 border border-slate-200">188 张表回原始 PDF 逐页比对，16 项复算差异全 0</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="rounded-lg bg-slate-900 text-slate-100 p-6 mb-6">
+    <p class="leading-relaxed">
+      <strong>AI 不会问「加起来为什么是 115.2%」。AI 只会把它写进表格，标上「索辰科技 2025 年报」。</strong>
+    </p>
+  </div>
+
+  <h3 class="text-lg font-semibold text-slate-800 mt-8 mb-3">4.2 但有个反向警告 —— 这条更重要</h3>
+  <p class="text-slate-700 leading-relaxed mb-3">
+    <strong>Vaccaro 第三条结论：AI 比你强的地方用 AI，你会变差。</strong>
+  </p>
+  <p class="text-slate-700 leading-relaxed mb-3">
+    你的 44 岁 + 工业 + 甲方 + 云组合，恰恰在「AI 比你强的地方」：
+  </p>
+  <ul class="list-disc pl-6 space-y-1 text-slate-700 leading-relaxed mb-3">
+    <li>写代码、跑模型、调参、通用检索 → <strong>你比不过 AI，而且用了会变差</strong></li>
+    <li>判断这个工业客户真实要什么、哪个技术选型在他们的组织里活不下来 → <strong>AI 够不着，因为这些信息不在公开数据里</strong></li>
+  </ul>
+  <p class="text-slate-700 leading-relaxed mb-4">所以你的策略不是「多用 AI」，是「<strong>精确地用 AI</strong>」：</p>
+  <ul class="list-disc pl-6 space-y-1 text-slate-700 leading-relaxed mb-8">
+    <li><strong>该 AI 干的</strong>：生成初稿、穷举可能性、跨文献检索、格式转换</li>
+    <li><strong>不该 AI 干的</strong>：定义问题、辨别这个数字可不可信、决定信不信谁、签字</li>
+  </ul>
+
+  <h3 class="text-lg font-semibold text-slate-800 mt-8 mb-3">4.3 一条可执行的自检</h3>
+  <p class="text-slate-700 leading-relaxed mb-4">每次让 AI 交付东西之前问：</p>
+  <blockquote class="border-l-4 border-amber-400 pl-4 my-4 italic text-slate-800 bg-amber-50 py-3">
+    我要付的验证成本，和它省下的生成成本，哪个大？
+  </blockquote>
+  <div class="overflow-x-auto mb-6">
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-slate-100 text-left">
+          <th class="px-4 py-3 font-semibold text-slate-800 border border-slate-200">场景</th>
+          <th class="px-4 py-3 font-semibold text-slate-800 border border-slate-200">生成成本</th>
+          <th class="px-4 py-3 border border-slate-200">验证成本</th>
+          <th class="px-4 py-3 font-semibold text-slate-800 border border-slate-200">判断</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="px-4 py-3 border border-slate-200">索辰财务核验</td>
+          <td class="px-4 py-3 border border-slate-200">29 分钟</td>
+          <td class="px-4 py-3 border border-slate-200">≈2 天</td>
+          <td class="px-4 py-3 border border-slate-200 text-emerald-700">值得</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3 border border-slate-200">PPT 16 页</td>
+          <td class="px-4 py-3 border border-slate-200">3 分钟</td>
+          <td class="px-4 py-3 border border-slate-200">≈5 分钟</td>
+          <td class="px-4 py-3 border border-slate-200 text-amber-700">略亏，但必须做</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3 border border-slate-200">3 行进展</td>
+          <td class="px-4 py-3 border border-slate-200">2 分钟</td>
+          <td class="px-4 py-3 border border-slate-200">≈0</td>
+          <td class="px-4 py-3 border border-slate-200 text-emerald-700">纯赚</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="text-slate-700 leading-relaxed mb-10">
+    <strong>这不是「AI 好还是不好」，是定价问题。</strong>
+  </p>
+
+  <h2 class="text-2xl font-bold text-slate-900 mt-14 mb-4">5 · 核心引用</h2>
+  <div class="overflow-x-auto mb-10">
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-slate-100 text-left">
+          <th class="px-4 py-3 font-semibold text-slate-800 border border-slate-200">文献</th>
+          <th class="px-4 py-3 font-semibold text-slate-800 border border-slate-200">出处</th>
+          <th class="px-4 py-3 font-semibold text-slate-800 border border-slate-200">关键数字</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="px-4 py-3 border border-slate-200">Lee et al. 2025</td><td class="px-4 py-3 border border-slate-200">CHI '25, 10.1145/3706598.3713778</td><td class="px-4 py-3 border border-slate-200">n=319, 936 案例</td></tr>
+        <tr><td class="px-4 py-3 border border-slate-200">Bastani et al. 2025</td><td class="px-4 py-3 border border-slate-200">PNAS（预注册 RCT）</td><td class="px-4 py-3 border border-slate-200">+48% / 撤走后 −17%</td></tr>
+        <tr><td class="px-4 py-3 border border-slate-200">Vaccaro et al. 2024</td><td class="px-4 py-3 border border-slate-200">Nat Hum Behav 8(12):2293–2303</td><td class="px-4 py-3 border border-slate-200">106 研究, g=−0.23</td></tr>
+        <tr><td class="px-4 py-3 border border-slate-200">Anthropic AEI 第四期</td><td class="px-4 py-3 border border-slate-200">厂商一手 PDF</td><td class="px-4 py-3 border border-slate-200">76% 自动化, directive 64%</td></tr>
+        <tr><td class="px-4 py-3 border border-slate-200">arXiv:2607.01904</td><td class="px-4 py-3 border border-slate-200">预印本</td><td class="px-4 py-3 border border-slate-200">802 人 / 196,212 PR / 66 小时</td></tr>
+        <tr><td class="px-4 py-3 border border-slate-200">Goh et al. 2024</td><td class="px-4 py-3 border border-slate-200">Nature Medicine, 10.1038/s41591-024-03456-y</td><td class="px-4 py-3 border border-slate-200">92 医生，管理推理显著↑</td></tr>
+        <tr><td class="px-4 py-3 border border-slate-200">Hager et al. 2024</td><td class="px-4 py-3 border border-slate-200">Nature Medicine, 10.1038/s41591-024-02850-w</td><td class="px-4 py-3 border border-slate-200">140 放射科医生，诊断推理不显著</td></tr>
+        <tr><td class="px-4 py-3 border border-slate-200">Brynjolfsson et al. 2025</td><td class="px-4 py-3 border border-slate-200">QJE</td><td class="px-4 py-3 border border-slate-200">5,179 客服, +15% / 新人 +34%</td></tr>
+        <tr><td class="px-4 py-3 border border-slate-200">Kosmyna et al. 2025</td><td class="px-4 py-3 border border-slate-200">arXiv 预印本</td><td class="px-4 py-3 border border-slate-200">83% / 55%（转述的 78% 原文未定位到）</td></tr>
+        <tr><td class="px-4 py-3 border border-slate-200">Dell'Acqua et al. 2026</td><td class="px-4 py-3 border border-slate-200">Organization Science</td><td class="px-4 py-3 border border-slate-200">边界外任务正确率 −19%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="text-sm text-slate-500 border-t border-slate-200 pt-6">
+    完整取证报告（91KB · 50 条一手来源 · 26 DOI）：<span class="font-mono">/home/ubuntu/AI认知与判断质量_取证报告.md</span><br />
+    证据等级已逐条标注：已发表原文确认 / 媒体转述 / 分析师判断 / 未找到可靠来源。
+  </p>
+</section>
+</ResearchLayout>
