@@ -1,0 +1,376 @@
+---
+/**
+ * /insights/industries/dajie-ai/ — 大捷智能 × 谢晖 案例研究页
+ *
+ * 分析框架：对标 /insights/industries/horizon-robotics/ 同款结构
+ * 核心判断：大捷不是在替代达索，是在 CAD 的输出端补一层"工艺知识"
+ * 数据来源：吴婷《工业设计软件的国产时刻》(2026-11)、21 世纪经济报道 (2023-10)、
+ *          佛山在线 (2025)、公司官网、企查查、湖南大学官网、百度百科
+ * 数据截至：2026-11
+ * 立场声明：原始文章作者吴婷自述其机构为大捷被投方，本文已交叉核验并标注口径
+ */
+import BaseLayout from '../../../layouts/ResearchLayout.astro';
+
+const title = '大捷智能：不替代达索，补它的位 · Robin Ji';
+const description =
+  '大捷智能（佛山）案例研究 — 一家国家级专精特新小巨人如何在 CAD 输出端补一层工艺知识，把汽车模具设计从 15 天压到 3 小时，并绕开抵触的模具厂直接卖给主机厂。';
+
+/* ---------- 关键数字 ---------- */
+const kpis = [
+  {
+    metric: '8–15 天 → 3 小时',
+    label: '汽车模具设计周期',
+    detail: '厂商口径。21 财经（2023）写作"10 天 → 2–3 小时"，口径一致但无第三方验证',
+  },
+  {
+    metric: '7,000+',
+    label: '真实工程案例迭代',
+    detail: '达到车企导入标准所消耗的验证样本量，也是新玩家最难复制的部分',
+  },
+  {
+    metric: '2019',
+    label: '成立于佛山',
+    detail: '季华实验室孵化，2022-12 完成 A 轮（英诺天使）',
+  },
+  {
+    metric: '4 年',
+    label: '从产品到规模化',
+    detail: '2021 年 Agle Die V1.0 → 2025 年初岚图破局。中间两年四处碰壁',
+  },
+];
+
+/* ---------- 事实卡片 ---------- */
+const facts = [
+  { k: '公司', v: '大捷智能科技（广东）有限公司', s: '2019 年底于佛山成立' },
+  { k: '创始人', v: '谢晖', s: '湖南大学教授/博导 · 国家"万人计划"领军人才 · 国务院政府特殊津贴' },
+  { k: '定位', v: '"人工智能+"智能设计引擎', s: '垂域模型 + 工艺驱动结构知识图谱' },
+  { k: '产品', v: 'Agle Die / Agile-Form / 实时驱控 MES / 设计云平台', s: '模具结构、冲压工艺、设计-制造打通、公有云' },
+  { k: '资质', v: '国家高新 · 国家专精特新"小巨人"', s: '广东省模具智能设计与智能制造工程技术研究中心' },
+  { k: '团队', v: '40 人硕博研发 + 50 人工程技术', s: '2025 年佛山在线口径' },
+  { k: '融资', v: '2022-12 A 轮', s: '英诺天使基金（企查查 / innoHere）' },
+  { k: '营收', v: '2023 年预计 1.5 亿元', s: '21 财经 —— 预测值，非审计数' },
+  { k: '客户', v: '岚图、比亚迪、一汽大众、本田、小鹏、海信', s: '2023 年为广汽、东风、吉利、VINFAST' },
+];
+
+/* ---------- 时间线：两条线并置 ---------- */
+const timeline = [
+  { date: '2004.12', event: '湖南大学机械与汽车工程学院 副教授', note: '学术线起点' },
+  { date: '2005.07', event: '天津汽车模具有限公司（天汽模，002510）技术分公司 总经理', note: '产业线起点。兼博士后科研工作站执行站长 —— 后来 7,000 个案例的真正源头' },
+  { date: '2007', event: '天津市赴欧优秀博士后计划 → 瑞典 Chalmers 大学', note: '车辆与交通安全方向' },
+  { date: '2009.02', event: '湖南大学教授、博导', note: '把产业关系带回高校。任职整车先进设计制造技术全国重点实验室' },
+  { date: '—', event: '中国汽车工程学会 车身技术分会 秘书长', note: '主任委员为钟志华院士。行业标准话语权的位置' },
+  { date: '2019.12', event: '佛山创办大捷智能', note: '佛山市科技局引进创新创业团队，季华实验室提供平台与孵化' },
+  { date: '2021', event: 'Agle Die V1.0 完成核心功能开发', note: '此后用 7,000+ 真实工程案例迭代验证' },
+  { date: '2022', event: '建成国内首个冲压模具智能制造示范工程', note: '解决"没人敢第一个用"的信任问题' },
+  { date: '2022.12', event: 'A 轮融资，英诺天使基金', note: '同年在谈后续轮次' },
+  { date: '2022–2023', event: '四处碰壁', note: '主机厂反问"哪个龙头企业在用"；模具厂担心被压价' },
+  { date: '2025 初', event: '岚图破局', note: 'DeepSeek R1 之后认知成本骤降。岚图强压模具供应商必须引入' },
+  { date: '2025–2026', event: '比亚迪、一汽大众、本田、小鹏跟进；海信（家电）签约', note: '从汽车模具向家电、航空航天、船舶横向扩张' },
+];
+
+/* ---------- 八个洞察 ---------- */
+const insights = [
+  {
+    n: '01',
+    title: '破局点：绕开，而不是正面替代',
+    body:
+      'CAD 解决"画得出来"，大捷解决"知道该怎么造"。输入是 CAD 输出的工艺曲面，输出是模具结构 —— 它站在达索的出口，不在达索的赛道上。达索卖通用能力，大捷卖这一行的隐性知识。两者不竞争，是上下游。正面替代三十年积累的几何内核是死路，在垂直工艺环节固化经验是活路。',
+  },
+  {
+    n: '02',
+    title: '护城河不在模型，在"案例 + 流程嵌入"的双重锁定',
+    body:
+      '模型别人也能训，但两样东西拿不到：① 7,000 个真实工程案例 —— 工业设计数据全部沉淀在企业内部，不公开、不外流，新玩家既拿不到训练集也拿不到验证集；② 一旦用上，设计流程、标准件库、审批链条、MES 数据全部绑死，换软件意味着停线重来。单点技术可抄，嵌进生产流程的软件抄不了。',
+  },
+  {
+    n: '03',
+    title: '最聪明的一手：卖给主机厂，不卖给模具厂',
+    body:
+      '模具厂的报价依据是"设计周期 + 人工成本"。AI 把周期从 10 天压到 3 小时 → 主机厂立刻压价 → 模具厂效率提高了，利润反而没了。这是一次典型的"效率提升直接摧毁客户利润模型"死局。破法是绕过模具厂、直接卖给主机厂，让主机厂去压模具厂 —— 岚图看过测试数据后"强势要求模具厂必须引入"。规律：当一个技术会让中间商的利润消失时，不要卖给他，卖给能命令他的那个人。',
+  },
+  {
+    n: '04',
+    title: '产品 2021 年就做出来了，为什么 2025 年才起飞',
+    body:
+      '产品没变，客户的认知成本变了。2023 年要花力气解释"AI 是什么、能不能信"；2025 年初 DeepSeek R1 之后，不用解释了。技术成熟度和市场成熟度是两条曲线，你只控制得了前者。做早了不是优势，是成本 —— 你要自己承担教育市场的全部费用，还要承担先烈风险。',
+  },
+  {
+    n: '05',
+    title: '「教授创业」的坎是身份，不是技术',
+    body:
+      '有模具公司说这套系统"不好用"，理由是"它出自大学教授之手" —— 这是身份攻击，不是产品攻击，你没法用参数反驳。破法不是辩解，是让客户拿测试数据说话，并让最硬的客户公开背书。学术背景在 B 端是负债，直到你有一个能打的标杆客户。第一个客户的价值不在收入，在"身份洗白"。',
+  },
+  {
+    n: '06',
+    title: '「慢公司」这个定性，是原文最偷懒的地方',
+    body:
+      '真实节奏是 20 年积累 + 4 年商业化 + 1 年引爆，不是慢公司，是"慢积累、快引爆"。区别在于：慢公司靠时间熬；它是在一个窄口上，把二十年经验一次性兑现。稀缺的不是耐心，是选对窄口 —— 选错了，熬二十年也没用。',
+  },
+  {
+    n: '07',
+    title: '天花板是真问题，原文回避了',
+    body:
+      '汽车模具设计软件，中国一年能有多大？一辆新车几千次模具设计 × 年新车型数 × 单套设计费 —— 即使全归它，也是几十亿级的池子。所以必须横向扩：家电（海信已签）、航空航天（在谈飞机工业集团）、船舶。但每换一个行业，7,000 个案例的优势就归零一次 —— 模具的工艺知识不能直接迁移到航发叶片。小切口能活，但活不成巨头，除非它证明自己能连续切开第二、第三个口子。这是估值的关键变量。',
+  },
+  {
+    n: '08',
+    title: '云平台那步，是想从「卖软件」变成「卖产能」',
+    body:
+      '原文提到"让工程师一个月从画两套图提升到十套，用得好能大幅提高收入" —— 计件/抽成的雏形。天花板完全不同：卖软件是几十亿的池子，卖产能是几千亿的人力成本池。但这一步最难：个人工程师付费能力弱，且直接冲击模具厂的用工模式 —— 等于绕开老板，直接武装员工。走通就从"工业软件公司"变成"工业人力平台"；走不通，还是家好一点的工具公司。',
+  },
+];
+
+/* ---------- 可迁移的判断法则 ---------- */
+const rules = [
+  { myth: '替代达索、西门子', truth: '不替代，补位 —— 在巨头不愿做的垂直层固化经验' },
+  { myth: '拼技术、拼参数', truth: '拼案例、拼流程嵌入 —— 数据不外流 + 迁移成本高' },
+  { myth: '先做产品，再找客户', truth: '先找能命令客户的人 —— 渠道跟着权力走' },
+  { myth: '国产化率从 10% 提到 30%', truth: '在 10% 之外新开一个品类' },
+];
+
+/* ---------- 证据边界 ---------- */
+const evidence = [
+  {
+    tag: '已交叉核实',
+    tone: 'ok',
+    items: [
+      '公司主体、成立时间（2019 年底，佛山）、资质（国家高新 / 专精特新小巨人）—— 官网 + 21 财经 + 企查查',
+      '谢晖履历：湖大副教授（2004-2005）→ 天汽模技术分公司总经理（2005-2009）→ 湖大教授（2009-）',
+      '2022-12 A 轮，英诺天使基金 —— 企查查 / innoHere 融资历史',
+      '客户名单的多源交叉（岚图、比亚迪、广汽、东风、本田、小鹏、海信）',
+      '季华实验室平台与孵化关系（21 财经、佛山在线一致）',
+    ],
+  },
+  {
+    tag: '厂商宣称，待第三方验证',
+    tone: 'warn',
+    items: [
+      '"模具设计 8–15 天压缩至 3 小时" —— 三篇报道口径一致，但均出自厂商或厂商访谈',
+      '"7,000+ 真实工程案例" —— 无独立审计或客户侧确认',
+      '"目前没有竞争对手" —— 副总经理易建业自述，非市场结论',
+      '2023 年营收 1.5 亿元 —— 21 财经写作"预计"，非审计数',
+      '"设计能力已超越国际高端 CAD 软件" —— 21 财经转述受访者表述',
+    ],
+  },
+  {
+    tag: '口径差异与存疑',
+    tone: 'none',
+    items: [
+      '专利数量三个口径打架：企查查 66 项、2023 年"知识产权 85 项（发明授权 19、软著 26）"、2025 年"授权发明专利 60 余项"。大概率是"申请"与"授权"混用 —— 引用时建议只说"数十项发明专利"，不写具体数',
+      '原文称谢晖"博士毕业后去了汽车模具龙头企业当技术总经理"，实际顺序是"湖大副教授 → 天汽模 → 湖大教授"，中间有四年产业经历被省略',
+      '原文作者吴婷自述其机构为大捷被投企业，文章属"案例营销"而非独立报道',
+      '36 氪 pitchhub 上另有 2014 年成立的"湖南大捷"（hnagle.com），为关联主体而非本文所述广东公司，勿混用',
+      '营收、订单规模、客户实际部署深度均未公开，无法评估真实渗透率',
+    ],
+  },
+];
+
+const sources = [
+  '吴婷《吴婷：工业设计软件的国产时刻》，今日头条 / 网易，2026-11',
+  '高慧超《高成长企业⑪｜大捷智能："小切口"杀入千亿市场》，《21 世纪经济报道》，2023-10-18',
+  '倪玉洁、周春《目前"没有竞争对手"！自研 AI 杀入模具设计》，佛山在线《佛山向新㉖》，2025',
+  '大捷智能官网（agle.com.cn）：关于大捷 / 大捷智能设计云平台',
+  '企查查 · 大捷智能科技（广东）有限公司工商与融资信息',
+  '湖南大学国家卓越工程师学院 / 百度百科：谢晖个人履历',
+  '中国汽车工程学会车身技术分会 组织信息',
+];
+---
+
+<BaseLayout title={title} description={description} section="industries">
+  <section class="border-b border-slate-200/80 bg-gradient-to-b from-slate-50 to-transparent py-16 dark:border-slate-800 dark:from-slate-900/50">
+    <div class="container-prose">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent-700 dark:text-accent-400">Industry Insight · Industrial Software</p>
+      <h1 class="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl dark:text-white">
+        大捷智能：不替代达索，补它的位
+      </h1>
+      <p class="mt-4 max-w-3xl text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        一家佛山公司，把汽车模具设计从 8–15 天压到 3 小时，却在 2022–2023 年四处碰壁。
+        它的破局不在技术，在渠道结构：<span class="font-semibold text-slate-900 dark:text-slate-100">模具厂不要它，它就卖给能命令模具厂的人。</span>
+        本文拆解大捷的产品定位、护城河、商业化路径，以及被原始报道回避掉的天花板问题。
+      </p>
+      <p class="mt-4 text-sm text-slate-500 dark:text-slate-400">
+        数据来源：吴婷（2026-11）、21 世纪经济报道（2023-10）、佛山在线（2025）、公司官网、企查查、湖南大学官网 · 截至 2026-11
+      </p>
+      <p class="mt-4 text-sm">
+        <a href="../horizon-robotics/" class="font-semibold text-accent-700 underline underline-offset-4 hover:text-accent-800 dark:text-accent-400">地平线机器人 →</a>
+        <span class="mx-2 text-slate-400">·</span>
+        <a href="../" class="font-semibold text-accent-700 underline underline-offset-4 hover:text-accent-800 dark:text-accent-400">工业软件行业全景 →</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 关键数字 -->
+  <section class="py-12">
+    <div class="container-prose">
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {kpis.map((k) => (
+          <div class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+            <p class="text-2xl font-bold tabular-nums text-accent-700 dark:text-accent-400">{k.metric}</p>
+            <p class="mt-2 text-sm font-medium text-slate-900 dark:text-slate-100">{k.label}</p>
+            <p class="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">{k.detail}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 一句话判断 -->
+  <section class="pb-12">
+    <div class="container-prose">
+      <p class="rounded-2xl border border-accent-300 bg-accent-50 p-6 text-base font-medium leading-relaxed text-slate-800 dark:border-accent-800 dark:bg-accent-950/30 dark:text-slate-100">
+        它不是"国产 CAD"。它是在 CAD 的输出端，加了一层"知道该怎么造"的工艺知识层 ——
+        卖的不是画图能力，是老师傅的手感。
+      </p>
+    </div>
+  </section>
+
+  <!-- 一、事实卡片 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">一、事实卡片</h2>
+      <p class="mt-3 text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        每一行都标了来源口径。带"预测""自述"字样的，不进结论。
+      </p>
+      <div class="mt-8 overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800">
+        <table class="w-full text-left text-sm">
+          <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+            {facts.map((f) => (
+              <tr class="bg-white align-top dark:bg-slate-900">
+                <th class="w-24 whitespace-nowrap bg-slate-50 px-4 py-3 text-xs font-bold text-slate-500 dark:bg-slate-950/50 dark:text-slate-400">{f.k}</th>
+                <td class="px-4 py-3">
+                  <p class="font-semibold text-slate-900 dark:text-slate-100">{f.v}</p>
+                  <p class="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">{f.s}</p>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 二、时间线 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">二、两条线并置：20 年积累，4 年商业化</h2>
+      <p class="mt-3 text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        原始报道说"博士毕业后去模具企业当技术总经理"。实际顺序是
+        <span class="font-semibold text-slate-900 dark:text-slate-100">湖大副教授 → 天汽模技术分公司总经理（2005–2009）→ 湖大教授（2009）</span>
+        —— 中间那四年产业经历被省略了，而它恰恰是 7,000 个案例的真正源头。
+      </p>
+      <div class="mt-8 space-y-3">
+        {timeline.map((t, i) => (
+          <div class="flex gap-4 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+            <div class="w-24 shrink-0 pt-0.5 text-right">
+              <span class="text-xs font-bold tabular-nums text-accent-700 dark:text-accent-400">{t.date}</span>
+            </div>
+            <div class="min-w-0 flex-1 border-l-2 border-slate-200 pl-4 dark:border-slate-700">
+              <p class="text-sm font-semibold leading-snug text-slate-900 dark:text-slate-100">{t.event}</p>
+              {t.note && <p class="mt-1.5 text-xs leading-relaxed text-slate-500 dark:text-slate-400">{t.note}</p>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 三、八个洞察 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">三、八个洞察</h2>
+      <div class="mt-8 space-y-4">
+        {insights.map((it) => (
+          <div class="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+            <div class="flex items-start gap-4">
+              <span class="mt-0.5 text-sm font-black tabular-nums text-slate-300 dark:text-slate-600">{it.n}</span>
+              <div class="min-w-0">
+                <h3 class="text-lg font-bold leading-snug text-slate-950 dark:text-white">{it.title}</h3>
+                <p class="mt-2.5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{it.body}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 四、可迁移的判断法则 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">四、从这一案里能拿走的四条判断法则</h2>
+      <div class="mt-8 overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-slate-50 dark:bg-slate-950/50">
+            <tr>
+              <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">常见叙事</th>
+              <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">大捷的实际做法</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+            {rules.map((r) => (
+              <tr class="bg-white align-top dark:bg-slate-900">
+                <td class="px-4 py-3 text-slate-500 line-through decoration-slate-300 dark:text-slate-400">{r.myth}</td>
+                <td class="px-4 py-3 font-medium text-slate-900 dark:text-slate-100">{r.truth}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <p class="mt-8 rounded-2xl border border-accent-300 bg-accent-50 p-5 text-base font-medium leading-relaxed text-slate-800 dark:border-accent-800 dark:bg-accent-950/30 dark:text-slate-100">
+        核心一句：国产工业软件的突破口，不在把别人的软件重写一遍，在把中国工厂里的隐性经验，变成别人没有的软件。
+        中国制造业 30% 的全球占比，是唯一别人拿不走的原料。
+      </p>
+    </div>
+  </section>
+
+  <!-- 五、证据边界 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">五、证据边界</h2>
+      <p class="mt-3 text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        这一节是本文与原始报道最大的差别：把"确认过的"和"听说的"分开。
+      </p>
+      <div class="mt-8 space-y-5">
+        {evidence.map((e) => (
+          <div
+            class:list={[
+              'rounded-2xl border p-6',
+              e.tone === 'ok'
+                ? 'border-emerald-200 bg-emerald-50/60 dark:border-emerald-900 dark:bg-emerald-950/20'
+                : e.tone === 'warn'
+                  ? 'border-amber-200 bg-amber-50/60 dark:border-amber-900 dark:bg-amber-950/20'
+                  : 'border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900',
+            ]}
+          >
+            <h3
+              class:list={[
+                'text-sm font-bold uppercase tracking-wider',
+                e.tone === 'ok' ? 'text-emerald-700 dark:text-emerald-400' : e.tone === 'warn' ? 'text-amber-700 dark:text-amber-400' : 'text-slate-600 dark:text-slate-400',
+              ]}
+            >
+              {e.tag}
+            </h3>
+            <ul class="mt-4 space-y-2.5 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+              {e.items.map((i) => <li class="flex gap-2"><span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-current opacity-40" /><span>{i}</span></li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 六、来源 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-sm font-bold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">数据来源</h2>
+      <ul class="mt-4 space-y-2 text-sm text-slate-600 dark:text-slate-400">
+        {sources.map((s) => <li>· {s}</li>)}
+      </ul>
+      <p class="mt-6 text-xs leading-relaxed text-slate-400 dark:text-slate-500">
+        本文为公开信息分析，非投资建议。原文作者吴婷自述其机构为大捷智能被投方，本文已就该关系作出标注，
+        并对关键数字做了交叉核验与口径拆分。
+      </p>
+    </div>
+  </section>
+</BaseLayout>

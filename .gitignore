@@ -21,4 +21,5 @@ pnpm-debug.log*
 .vscode/
 
 # misc
-*.localshots/
+*.local
+shots/
