@@ -1,0 +1,626 @@
+---
+/**
+ * /insights/industries/china-auto-global/ — 中国汽车 2026：收缩、出海与能力缺口
+ *
+ * 核心论点：国内不是"饱和"，是已经在收缩；出海救的是量，不救利
+ * 数据来源：中汽协、海关总署、乘联会/崔东树、国家统计局、BBC 中文、商务部
+ * 数据截至：2026-11
+ */
+import BaseLayout from '../../../layouts/ResearchLayout.astro';
+
+const title = '国内 −21%，出口 +52%：收缩，不是饱和 · Robin Ji';
+const description =
+  '中国汽车 2026 年 1–9 月真实分化：国内销量同比 −21.4%，出口 +52.2%，出口占比从 22.9% 升到 36.5%。拆解饱和论、产能过剩、三扇正在关上的门，以及出海真正需要补的六项能力。';
+
+/* ---------- 关键数字 ---------- */
+const kpis = [
+  { metric: '−21.4%', tone: 'down', label: '国内销量（2026 年 1–9 月）', detail: '约 1,476.8 万辆。总量 2,327.1 万辆扣除出口后推算，与乘用车零售 1,192.6 万辆（−21%）交叉吻合' },
+  { metric: '+52.2%', tone: 'up', label: '出口（2026 年 1–9 月）', detail: '约 850.3 万辆。出口占总销量比重从 22.9% 升至 36.5%' },
+  { metric: '36.5%', tone: 'neutral', label: '出口占总销量比重', detail: '2025 年同期为 22.9%，一年提高 13.6 个百分点' },
+  { metric: '4.1%', tone: 'down', label: '行业利润率（2025 年全年）', detail: '乘联会口径。2025 年 12 月单月降至 1.8%，为历史极低值。量在涨，利在失血' },
+];
+
+/* ---------- 双轴对冲图数据 ---------- */
+const chart = {
+  max: 2500,
+  rows: [
+    {
+      name: '国内销量',
+      y2025: { v: 1878.1, pct: (1878.1 / 2500) * 100 },
+      y2026: { v: 1476.8, pct: (1476.8 / 2500) * 100 },
+      delta: '−401.3 万辆',
+      rate: '−21.4%',
+      tone: 'down',
+    },
+    {
+      name: '出口',
+      y2025: { v: 558.6, pct: (558.6 / 2500) * 100 },
+      y2026: { v: 850.3, pct: (850.3 / 2500) * 100 },
+      delta: '+291.7 万辆',
+      rate: '+52.2%',
+      tone: 'up',
+    },
+    {
+      name: '总销量',
+      y2025: { v: 2436.8, pct: (2436.8 / 2500) * 100 },
+      y2026: { v: 2327.1, pct: (2327.1 / 2500) * 100 },
+      delta: '−109.7 万辆',
+      rate: '−4.5%',
+      tone: 'flat',
+    },
+  ],
+};
+
+/* ---------- 产能 ---------- */
+const capacity = [
+  { period: '2025 全年', rate: '73%', idle: '约 1,277 万辆', note: '总产能约 4,730 万辆，产量 3,453.1 万辆' },
+  { period: '2026 上半年', rate: '70.6%', idle: '—', note: '国家统计局口径，汽车制造业产能利用率' },
+  { period: '2026 中性预期', rate: '65%', idle: '约 1,656 万辆', note: '券商测算。若成立，接近 2015 年上一轮周期底部' },
+];
+
+const capacitySplit = [
+  { tier: '头部（比亚迪、特斯拉等）', rate: '75–90%', note: '保有充足盈利缓冲' },
+  { tier: '腰部（年销 10–50 万辆）', rate: '不足 50%', note: '产线半停半开' },
+  { tier: '尾部（年销 10 万辆以下）', rate: '不足 30%', note: '实际开工率更低' },
+];
+
+/* ---------- 三扇门 ---------- */
+const doors = [
+  {
+    tag: '门① 墨西哥',
+    title: '关得最干脆',
+    body:
+      '2026-01-01 起，对非自贸协定国家汽车加征最高 50% 关税，明显针对中国转口。结果：2026 年中国车对墨出口同比 −43%。借道墨西哥进美国这条路，2026 年已经堵死。',
+  },
+  {
+    tag: '门② 俄罗斯',
+    title: '从"躺赢"到"苦战"',
+    body:
+      '2025 年俄罗斯乘用车销量 132.6 万辆、−15.6%；2026 年 1–9 月回升至 106 万辆（+5%），中国自主品牌份额 54.2%。但本地化要求与报废税持续收紧。崔东树的原话：整车出口躺赢的时代已经结束。份额还在，赚钱的窗口关了。',
+  },
+  {
+    tag: '门③ 欧盟',
+    title: '没关门，但换了锁',
+    body:
+      '2026 年 1 月，中欧就价格承诺（price undertaking）达成一致：用最低进口价替代高额关税。这不是豁免，是强制提价 —— 等于主动放弃中国车最大的武器：价格。',
+  },
+];
+
+/* ---------- 三个转换 ---------- */
+const shifts = [
+  { from: '卖车', to: '卖产能', why: '建厂 / 合资 / 技术授权。关税绕不过，只能在关税内生产', owner: '海外工厂与供应链' },
+  { from: '新车', to: '存量服务', why: '后市场、OTA、二手车、软件订阅。新车毛利 4.1%，后市场是 30%+', owner: '售后体系与数字化' },
+  { from: '中国成本', to: '区域成本', why: '供应链必须跟着工厂走，成本模型要重算', owner: '全球供应链与财务' },
+];
+
+/* ---------- 六个话题 ---------- */
+const topics = [
+  {
+    tier: '必学',
+    n: 'T1',
+    name: '海外合规三件套',
+    sub: 'R155 / R156 + 数据跨境 + EU AI Act',
+    why: '这三件全部落在 IT 头上，不是法务一个人能扛。R155 是整车型式认证的前置条件；R156 管 OTA 的版本管理与回滚；GDPR 与数据本地化决定车端数据哪些能出境；EU AI Act 给语音与智驾功能定风险档位。',
+    questions: [
+      '一辆出口欧盟的车，哪些数据可以出境、哪些必须留境内？',
+      'OTA 升级包在 R156 下的版本管理和回滚要求是什么？',
+      '车上的 AI 功能在 EU AI Act 里属于"有限风险"还是"高风险"？',
+    ],
+    bar: '能独立画出一张《海外项目合规数据流图》，标出每一跳的落地国家',
+  },
+  {
+    tier: '必学',
+    n: 'T2',
+    name: '多区域 IT 架构',
+    sub: '一套模板 vs N 个分叉',
+    why: '这是中国车企出海最真实的卡点 —— 不是不会造车，是 IT 撑不住多国合规。',
+    questions: [
+      '一套全球 ERP 模板，在几个国家会因为法规被迫分叉？',
+      '海外工厂的 OT 网络和国内怎么隔离、怎么远程运维？',
+      '研发 / 质量 / 售后的跨境数据流，哪一段必须本地化？',
+    ],
+    bar: '画得出「一套模板 + 三个分叉点」的架构图，并能说清每个分叉的合规依据',
+    highlight: true,
+  },
+  {
+    tier: '必学',
+    n: 'T3',
+    name: '原产地规则与本地化路径',
+    sub: 'CKD / SKD / 全工艺 · RCEP / USMCA / EU',
+    why: '决定项目能不能做。而 IT 是本地化率的数据提供方 —— BOM 原产地、供应商声明、成本拆分全在系统里。',
+    questions: [
+      '墨西哥 50% 关税下，SKD 还能不能算"墨西哥产"？',
+      '欧盟"价格承诺" vs 匈牙利建厂，哪个 IRR 更高？',
+      '本地化率从 20% 提到 40%，供应链要重排哪些环节？',
+    ],
+    bar: '能给一个市场做「关税 → 本地化 → 投资」三档测算',
+  },
+  {
+    tier: '加分',
+    n: 'T4',
+    name: '海外售后与 OTA 数字化',
+    sub: '最弱的一环，也最容易做出差异',
+    why: '没有 4S 网络，售后怎么做（直营 + 授权 + 移动服务）？备件预测模型在国内训的，搬到中东误差会涨多少？各国 OTA 法规差异在哪？中国车企的海外售后目前基本是空白。',
+    questions: [
+      '没有经销商网络，售后体系怎么搭？',
+      '国内训的备件预测模型，跨区域迁移误差多大？',
+      '欧盟 R156、美国各州、中东部分国家禁止行驶中升级 —— 一套 OTA 怎么兼容？',
+    ],
+    bar: '能设计一套"轻资产 + 远程诊断 + OTA"的海外售后服务模型',
+  },
+  {
+    tier: '加分',
+    n: 'T5',
+    name: '跨境财务与转移定价',
+    sub: '懂就行，不用精通',
+    why: '资金池、转移定价、汇率对冲、关税筹划。不需要自己会做税务筹划，但要能跟财务对上话，知道 IT 系统该提供哪些数据。',
+    questions: [
+      '转移定价需要系统提供哪些成本拆分？',
+      '本地化率举证，IT 侧要出哪些原始凭证？',
+      '多币种、多税制下，全球模板怎么处理科目差异？',
+    ],
+    bar: '能列出 IT 侧需要为财务合规提供的五类数据',
+  },
+];
+
+/* ---------- 路径 ---------- */
+const roadmap = [
+  { phase: '第 1–6 周', content: 'R155 / R156 原文 + 两份 TÜV / DEKRA 合规白皮书', output: '一页《R155/R156 要求拆解》' },
+  { phase: '第 7–12 周', content: 'GDPR 数据跨境 + EU AI Act 分级', output: '一张《出海数据流合规图》' },
+  { phase: '第 13–18 周', content: '多区域 ERP 架构案例（2–3 个公开案例横向对比）', output: '一张《一套模板 + 分叉点》架构图' },
+  { phase: '第 19–24 周', content: '原产地规则 + 三个市场（墨西哥 / 匈牙利 / 泰国）测算', output: '一份《三市场落地成本对比》' },
+];
+
+/* ---------- 证据边界 ---------- */
+const evidence = [
+  {
+    tag: '官方数据',
+    tone: 'ok',
+    items: [
+      '2026 年 1–9 月汽车产销 2,324.6 万 / 2,327.1 万辆，同比 −4.5%；9 月 295.6 万辆，−8.4% —— 中汽协',
+      '2025 年产销 3,453.1 万 / 3,440 万辆，+9.4%；新能源 1,649 万辆，占 47.9% —— 中汽协',
+      '2025 年出口 832.4 万辆 +29.9%，金额 1,424.6 亿美元 +21.4% —— 海关总署',
+      '2026 年 9 月出口 105.3 万辆 +61.4%；1–8 月 745 万辆 +51% —— 中汽协 / 乘联分会',
+      '产能利用率 73%（2025）、70.6%（2026H1）—— 国家统计局',
+      '墨西哥 2026-01 起对非 FTA 国家汽车加征最高 50% 关税 —— 墨议会法案',
+      '欧盟 2026-01 公布中国电动车价格承诺指引文件 —— 欧盟委员会 / 商务部',
+    ],
+  },
+  {
+    tag: '推算值（本文计算，已交叉验证）',
+    tone: 'warn',
+    items: [
+      '国内销量 = 总销量 − 出口：2026 年 1–9 月约 1,476.8 万辆；2025 年同期约 1,878.1 万辆',
+      '国内同比 −21.4% 为推算值，但与乘用车零售 1,192.6 万辆（−21%）方向与量级一致',
+      '出口占比 22.9% → 36.5%，由上述两组数得出',
+      '单车均价：2025 年出口量 +29.9%、金额 +21.4% → 单价约 −6.5%（1.214 / 1.299 − 1）',
+      '2026 年 7 月单价约 1.74 万美元（109.2 万辆 / 189.8 亿美元），8 月约 1.74 万美元',
+    ],
+  },
+  {
+    tag: '判断与未验证',
+    tone: 'none',
+    items: [
+      '"六个话题""三个转换"为本文框架化判断，无引用来源',
+      '"出海救量不救利"是对单价与利润率数据的归纳，非任何机构结论',
+      '2026 年全年数据尚未出炉（本文截至 11 月），全年出口 1,000–1,200 万辆为行业预测区间',
+      '各车企海外工厂的真实投产进度、出海项目实际 IRR —— 未找到可靠公开来源，不作判断',
+      '俄罗斯 2026 年 1–9 月销量 106 万辆 +5%、自主份额 54.2% —— 崔东树引俄方数据，非中国官方口径',
+    ],
+  },
+];
+
+const sources = [
+  '中国汽车工业协会：2026 年 9 月及 1–9 月汽车工业产销情况',
+  '中国汽车工业协会：2025 年 12 月及全年汽车工业产销情况（2026-01-14 发布会）',
+  '海关总署：2025 年、2026 年汽车整车出口量值数据',
+  '乘用车市场信息联席分会（崔东树）：2026 年各月出口市场分析、行业利润分析',
+  '国家统计局：2025 年四季度及 2026 年上半年工业产能利用率',
+  'BBC 中文 / 路透：墨西哥对华汽车加征 50% 关税及影响',
+  '香港贸发局经贸研究：欧盟中国电动车价格承诺指引文件解读（2026-01）',
+  '财新 / 证券时报 / 经济观察报：2026 年以旧换新与购置税政策退坡影响',
+];
+---
+
+<BaseLayout title={title} description={description} section="industries">
+  <section class="border-b border-slate-200/80 bg-gradient-to-b from-slate-50 to-transparent py-16 dark:border-slate-800 dark:from-slate-900/50">
+    <div class="container-prose">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent-700 dark:text-accent-400">Industry Insight · China Auto</p>
+      <h1 class="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl dark:text-white">
+        国内 −21%，出口 +52%：收缩，不是饱和
+      </h1>
+      <p class="mt-4 max-w-3xl text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        2026 年 1–9 月，中国汽车国内销量同比 <span class="font-semibold text-slate-900 dark:text-slate-100">−21.4%</span>，
+        出口 <span class="font-semibold text-slate-900 dark:text-slate-100">+52.2%</span>，出口占比从 22.9% 升到 36.5%。
+        <span class="font-semibold text-slate-900 dark:text-slate-100">「饱和」意味着需求见顶、价格稳定；现在是需求回落、价格失血。</span>
+        两者不是一回事。本文拆解这个分化、三扇正在关上的门，以及出海真正需要补的六项能力。
+      </p>
+      <p class="mt-4 text-sm text-slate-500 dark:text-slate-400">
+        数据来源：中汽协、海关总署、乘联分会、国家统计局、欧盟委员会 · 截至 2026-11
+      </p>
+      <p class="mt-4 text-sm">
+        <a href="../dajie-ai/" class="font-semibold text-accent-700 underline underline-offset-4 hover:text-accent-800 dark:text-accent-400">大捷智能案例 →</a>
+        <span class="mx-2 text-slate-400">·</span>
+        <a href="../" class="font-semibold text-accent-700 underline underline-offset-4 hover:text-accent-800 dark:text-accent-400">工业软件行业全景 →</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 核心结论 -->
+  <section class="py-10">
+    <div class="container-prose">
+      <p class="rounded-2xl border border-accent-300 bg-accent-50 p-6 text-base font-medium leading-relaxed text-slate-800 dark:border-accent-800 dark:bg-accent-950/30 dark:text-slate-100">
+        一句话：<span class="font-bold">出海救的是产能利用率，不是利润率。</span>
+        2025 年出口量 +29.9%、金额 +21.4%，反推单车均价 −6.5% —— 价格战跟着出海了。
+      </p>
+    </div>
+  </section>
+
+  <!-- KPI -->
+  <section class="pb-12">
+    <div class="container-prose">
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {kpis.map((k) => (
+          <div class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+            <p
+              class:list={[
+                'text-2xl font-bold tabular-nums',
+                k.tone === 'up' ? 'text-emerald-600 dark:text-emerald-400'
+                  : k.tone === 'down' ? 'text-rose-600 dark:text-rose-400'
+                  : 'text-accent-700 dark:text-accent-400',
+              ]}
+            >{k.metric}</p>
+            <p class="mt-2 text-sm font-medium text-slate-900 dark:text-slate-100">{k.label}</p>
+            <p class="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">{k.detail}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 图：双轴对冲 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">一、一张图：总盘只跌 4.5%，内部是 −401 与 +292 的对冲</h2>
+      <p class="mt-3 text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        2026 年 1–9 月对 2025 年同期。单位：万辆。
+        <span class="font-semibold text-slate-900 dark:text-slate-100">总量看起来只是"小幅下滑"，拆开是两条完全反向的曲线。</span>
+      </p>
+
+      <div class="mt-8 rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+        <div class="mb-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
+          <span class="flex items-center gap-2"><span class="h-2.5 w-4 rounded-sm bg-slate-300 dark:bg-slate-600"></span>2025 年 1–9 月</span>
+          <span class="hidden text-slate-300 sm:inline dark:text-slate-700">|</span>
+          <span class="font-medium text-slate-600 dark:text-slate-300">2026 年 1–9 月：</span>
+          <span class="flex items-center gap-1.5"><span class="h-2.5 w-4 rounded-sm bg-rose-500"></span>↓ 下降</span>
+          <span class="flex items-center gap-1.5"><span class="h-2.5 w-4 rounded-sm bg-emerald-500"></span>↑ 上升</span>
+          <span class="flex items-center gap-1.5"><span class="h-2.5 w-4 rounded-sm bg-amber-500"></span>↘ 小幅下降（−5% 内）</span>
+          <span class="ml-auto text-[11px] font-medium text-slate-400 dark:text-slate-500">单位：万辆</span>
+        </div>
+
+        <div class="space-y-7">
+          {chart.rows.map((r) => (
+            <div>
+              <div class="mb-2 flex flex-wrap items-baseline justify-between gap-2">
+                <p class="text-sm font-bold text-slate-900 dark:text-slate-100">{r.name}</p>
+                <p class:list={[
+                  'text-sm font-bold tabular-nums',
+                  r.tone === 'up' ? 'text-emerald-600 dark:text-emerald-400' : r.tone === 'down' ? 'text-rose-600 dark:text-rose-400' : 'text-amber-600 dark:text-amber-400',
+                ]}>
+                  {r.rate} <span class="font-normal opacity-70">（{r.delta}）</span>
+                </p>
+              </div>
+
+              <div class="space-y-1.5">
+                <div class="flex items-center gap-3">
+                  <div class="h-6 rounded-r-md bg-slate-300 dark:bg-slate-600" style={`width: ${r.y2025.pct}%`} />
+                  <span class="text-xs tabular-nums text-slate-500 dark:text-slate-400">{r.y2025.v.toLocaleString()}</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div
+                    class:list={[
+                      'h-6 rounded-r-md',
+                      r.tone === 'up' ? 'bg-emerald-500 dark:bg-emerald-400' : r.tone === 'down' ? 'bg-rose-500 dark:bg-rose-400' : 'bg-amber-500 dark:bg-amber-400',
+                    ]}
+                    style={`width: ${r.y2026.pct}%`}
+                  />
+                  <span class="text-xs font-semibold tabular-nums text-slate-700 dark:text-slate-300">{r.y2026.v.toLocaleString()}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-6 space-y-1.5 border-t border-slate-200 pt-4 text-xs leading-relaxed text-slate-500 dark:border-slate-800 dark:text-slate-400">
+          <p>国内与出口为推算值：总销（2,327.1 万辆，−4.5%）减去出口（1–8 月 745 万辆 +51%、9 月 105.3 万辆 +61.4%）。</p>
+          <p>推算结果与乘用车零售 1,192.6 万辆（−21%）方向与量级一致。</p>
+          <p>口径：汽车整车（含乘用车与商用车），中汽协批发口径；同比为 2026 年 1–9 月对 2025 年同期。数值因四舍五入存在 0.1 万辆级尾差。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 二、2025 是政策透支 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">二、2025 的 3,440 万辆，是政策透支出来的</h2>
+      <p class="mt-3 text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        2025 年冲到 3,440 万辆（+9.4%），乘用车首破 3,000 万 —— 这个数被当成"市场还没到顶"的证据。它其实不是。
+      </p>
+      <p class="mt-4 text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        2026 年政策退坡：购置税从全额免征改为减半征收；以旧换新从定额补贴改为按车价比例、力度减弱。
+        结果 ——
+        <span class="font-semibold text-slate-900 dark:text-slate-100">1 月前 18 天乘用车零售 −28%，全年 1–9 月产销 −4.5%。</span>
+      </p>
+      <p class="mt-4 rounded-xl border-l-4 border-accent-500 bg-slate-50 p-4 text-base font-medium leading-relaxed text-slate-800 dark:bg-slate-900 dark:text-slate-200">
+        需求没有消失，是被提前了。这和 2010 年购置税优惠退坡、2016 年小排量补贴退坡，是同一个剧本 ——
+        中国车市每一次"创新高"，都要看补贴的脸色。
+      </p>
+    </div>
+  </section>
+
+  <!-- 三、产能 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">三、产能：不是"结构性过剩"，是全面过剩</h2>
+
+      <div class="mt-8 overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-slate-50 dark:bg-slate-950/50">
+            <tr>
+              <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">期间</th>
+              <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">产能利用率</th>
+              <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">闲置产能</th>
+              <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">说明</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+            {capacity.map((c) => (
+              <tr class="bg-white align-top dark:bg-slate-900">
+                <td class="px-4 py-3 font-semibold text-slate-900 dark:text-slate-100">{c.period}</td>
+                <td class="px-4 py-3 font-bold tabular-nums text-rose-600 dark:text-rose-400">{c.rate}</td>
+                <td class="px-4 py-3 tabular-nums text-slate-700 dark:text-slate-300">{c.idle}</td>
+                <td class="px-4 py-3 text-xs leading-relaxed text-slate-500 dark:text-slate-400">{c.note}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <p class="mt-6 text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        但分布极不均。所谓"过剩"是个平均数，掩盖的是
+        <span class="font-semibold text-slate-900 dark:text-slate-100">"头部吃饱、尾部停摆"</span>：
+      </p>
+
+      <div class="mt-5 grid gap-3 sm:grid-cols-3">
+        {capacitySplit.map((c) => (
+          <div class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+            <p class="text-sm font-semibold text-slate-900 dark:text-slate-100">{c.tier}</p>
+            <p class="mt-2 text-2xl font-bold tabular-nums text-slate-950 dark:text-white">{c.rate}</p>
+            <p class="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">{c.note}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 四、出海对一半 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">四、"出海是唯一出路" —— 对一半</h2>
+
+      <div class="mt-8 grid gap-4 sm:grid-cols-2">
+        <div class="rounded-2xl border border-emerald-200 bg-emerald-50/60 p-6 dark:border-emerald-900 dark:bg-emerald-950/20">
+          <p class="text-sm font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">对的那一半 · 增量</p>
+          <p class="mt-3 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+            2026 年出口预计 1,000–1,200 万辆，相当于国内销量的 40–50%。
+            <span class="font-semibold text-slate-900 dark:text-slate-100">没有出口，2026 年的中国车市是两位数负增长。</span>
+            增量上，它确实是唯一。
+          </p>
+        </div>
+        <div class="rounded-2xl border border-rose-200 bg-rose-50/60 p-6 dark:border-rose-900 dark:bg-rose-950/20">
+          <p class="text-sm font-bold uppercase tracking-wider text-rose-700 dark:text-rose-400">错的那一半 · 利润</p>
+          <p class="mt-3 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+            2025 年出口量 +29.9%、金额 +21.4% ——
+            <span class="font-semibold text-slate-900 dark:text-slate-100">反推单车均价 −6.5%。</span>
+            价格战跟着出海了。出海救的是产能利用率，不是利润率。
+          </p>
+        </div>
+      </div>
+
+      <p class="mt-6 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+        2026 年 7、8 月单价稳定在约 1.74 万美元，但这是靠插混出口暴涨（对欧 +372%）与欧盟占比提升撑起的结构上移，不是溢价能力的改善。
+      </p>
+    </div>
+  </section>
+
+  <!-- 五、三扇门 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">五、三扇正在关上的门</h2>
+      <div class="mt-8 space-y-4">
+        {doors.map((d) => (
+          <div class="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+            <div class="flex flex-wrap items-baseline gap-3">
+              <span class="rounded-full bg-slate-900 px-3 py-1 text-xs font-bold text-white dark:bg-slate-100 dark:text-slate-900">{d.tag}</span>
+              <h3 class="text-lg font-bold text-slate-950 dark:text-white">{d.title}</h3>
+            </div>
+            <p class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{d.body}</p>
+          </div>
+        ))}
+      </div>
+      <p class="mt-6 rounded-xl border-l-4 border-amber-500 bg-amber-50/70 p-4 text-base font-medium leading-relaxed text-slate-800 dark:bg-amber-950/20 dark:text-slate-200">
+        小结：门没有关，但"低价倾销式出海"的那扇门已经关了。
+      </p>
+    </div>
+  </section>
+
+  <!-- 六、三个转换 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">六、所以真正的出路不是"出海"，是三个转换</h2>
+      <div class="mt-8 overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-slate-50 dark:bg-slate-950/50">
+            <tr>
+              <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">从</th>
+              <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">到</th>
+              <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">为什么</th>
+              <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">谁负责</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+            {shifts.map((s) => (
+              <tr class="bg-white align-top dark:bg-slate-900">
+                <td class="px-4 py-3 text-slate-500 line-through decoration-slate-300 dark:text-slate-400">{s.from}</td>
+                <td class="px-4 py-3 font-bold text-slate-900 dark:text-slate-100">{s.to}</td>
+                <td class="px-4 py-3 text-xs leading-relaxed text-slate-600 dark:text-slate-300">{s.why}</td>
+                <td class="px-4 py-3 text-xs text-slate-500 dark:text-slate-400">{s.owner}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-6 text-base font-medium leading-relaxed text-slate-800 dark:text-slate-200">
+        这三条，没有一条是"销售"能干的，全部是运营 + IT 的活。
+      </p>
+    </div>
+  </section>
+
+  <!-- 七、六个话题 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">七、值得学的六个话题</h2>
+      <p class="mt-3 text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        不按热度排，按"岗位能不能把它变成筹码"排。
+      </p>
+
+      <div class="mt-8 space-y-4">
+        {topics.map((t) => (
+          <div
+            class:list={[
+              'rounded-2xl border p-6',
+              t.highlight
+                ? 'border-accent-400 bg-accent-50/50 dark:border-accent-700 dark:bg-accent-950/20'
+                : 'border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900',
+            ]}
+          >
+            <div class="flex flex-wrap items-center gap-3">
+              <span
+                class:list={[
+                  'rounded-md px-2 py-0.5 text-[11px] font-bold uppercase tracking-wider',
+                  t.tier === '必学'
+                    ? 'bg-rose-600 text-white'
+                    : 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200',
+                ]}
+              >{t.tier}</span>
+              <span class="text-sm font-black tabular-nums text-slate-300 dark:text-slate-600">{t.n}</span>
+              <h3 class="text-lg font-bold text-slate-950 dark:text-white">{t.name}</h3>
+            </div>
+            <p class="mt-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">{t.sub}</p>
+            <p class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{t.why}</p>
+
+            <div class="mt-4 rounded-xl bg-slate-50 p-4 dark:bg-slate-950/40">
+              <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">必须能回答</p>
+              <ol class="mt-2 space-y-1.5 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                {t.questions.map((q, i) => (
+                  <li class="flex gap-2"><span class="shrink-0 font-semibold text-slate-400">{i + 1}.</span><span>{q}</span></li>
+                ))}
+              </ol>
+            </div>
+
+            <p class="mt-3 text-sm leading-relaxed">
+              <span class="font-semibold text-emerald-700 dark:text-emerald-400">够的标准：</span>
+              <span class="text-slate-700 dark:text-slate-300">{t.bar}</span>
+            </p>
+          </div>
+        ))}
+
+        <div class="rounded-2xl border border-dashed border-slate-300 p-6 dark:border-slate-700">
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="rounded-md bg-slate-900 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wider text-white dark:bg-slate-100 dark:text-slate-900">别学</span>
+            <h3 class="text-lg font-bold text-slate-950 dark:text-white">各国车市概况、海外市场分析</h3>
+          </div>
+          <p class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            那是咨询公司卖的活。你比不过一个专职分析师，而且这些报告满天飞。
+            <span class="font-semibold text-slate-900 dark:text-slate-100">要学的是"怎么在那边把系统立起来"，不是"那边市场有多大"。</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 八、路径 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">八、六个月的路径（每周 3–4 小时）</h2>
+      <div class="mt-8 space-y-3">
+        {roadmap.map((r, i) => (
+          <div class="flex gap-4 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+            <div class="w-28 shrink-0 pt-0.5 text-right">
+              <span class="text-xs font-bold text-accent-700 dark:text-accent-400">{r.phase}</span>
+            </div>
+            <div class="min-w-0 flex-1 border-l-2 border-slate-200 pl-4 dark:border-slate-700">
+              <p class="text-sm font-semibold leading-snug text-slate-900 dark:text-slate-100">{r.content}</p>
+              <p class="mt-1.5 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+                产出：<span class="font-semibold text-emerald-700 dark:text-emerald-400">{r.output}</span>
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p class="mt-6 rounded-2xl border border-accent-300 bg-accent-50 p-5 text-base font-medium leading-relaxed text-slate-800 dark:border-accent-800 dark:bg-accent-950/30 dark:text-slate-100">
+        第 24 周时，手上有四张图。这四张图比任何一份"出海市场研究报告"都值钱 —— 因为它们能直接放进项目提案。
+      </p>
+    </div>
+  </section>
+
+  <!-- 九、证据边界 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">九、证据边界</h2>
+      <p class="mt-3 text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        本文有两处是推算、一处是判断，全部标出。
+      </p>
+      <div class="mt-8 space-y-5">
+        {evidence.map((e) => (
+          <div
+            class:list={[
+              'rounded-2xl border p-6',
+              e.tone === 'ok'
+                ? 'border-emerald-200 bg-emerald-50/60 dark:border-emerald-900 dark:bg-emerald-950/20'
+                : e.tone === 'warn'
+                  ? 'border-amber-200 bg-amber-50/60 dark:border-amber-900 dark:bg-amber-950/20'
+                  : 'border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900',
+            ]}
+          >
+            <h3
+              class:list={[
+                'text-sm font-bold uppercase tracking-wider',
+                e.tone === 'ok' ? 'text-emerald-700 dark:text-emerald-400' : e.tone === 'warn' ? 'text-amber-700 dark:text-amber-400' : 'text-slate-600 dark:text-slate-400',
+              ]}
+            >{e.tag}</h3>
+            <ul class="mt-4 space-y-2.5 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+              {e.items.map((i) => (
+                <li class="flex gap-2"><span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-current opacity-40" /><span>{i}</span></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 来源 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-sm font-bold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">数据来源</h2>
+      <ul class="mt-4 space-y-2 text-sm text-slate-600 dark:text-slate-400">
+        {sources.map((s) => <li>· {s}</li>)}
+      </ul>
+      <p class="mt-6 text-xs leading-relaxed text-slate-400 dark:text-slate-500">
+        本文为公开信息分析，非投资建议。国内销量、出口占比、单车均价为本文推算值，已在正文与证据边界中标注。
+      </p>
+    </div>
+  </section>
+</BaseLayout>
