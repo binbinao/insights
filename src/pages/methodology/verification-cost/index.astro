@@ -9,15 +9,15 @@
  */
 import ResearchLayout from '../../../layouts/ResearchLayout.astro';
 
-const title = '验证成本框架：AI 为什么先吃掉软件，最后才碰物理世界 · Robin Ji';
+const title = 'AI 渗透顺序：一个假设，和它现在的证据强度 · Robin Ji';
 const description =
-  'AI 渗透的四层节奏（Coding → EDA → CAD → Physical AI）不是领域链，是验证成本链。四个"爆发"里只有 AI Coding 兑现：EDA 内生增长 +8.5%，CAD +5%。附四象限图、三条贯穿规律与三个证伪条件。';
+  'AI 的渗透顺序（Coding → EDA → CAD → Physical AI）常被解释为领域链，本文检验"验证成本"这个替代解释。五家厂商同期增速从 +5% 到 +22%，层内差异大于层间差异。附四象限图、七条结论的置信度分级与三个证伪条件。';
 
 const kpis = [
-  { metric: '+8.5%', tone: 'flat', label: 'Synopsys EDA 内生增长', detail: '同期总营收 +42%，但其中 28.7% 来自 Ansys 并表。EDA 真正自己长出来的只有 8.5%' },
-  { metric: '75%', tone: 'up', label: 'Google 新代码由 AI 生成', detail: 'Pichai 2026-04 公开表述。四层里唯一一个渗透率有硬数据支撑的' },
-  { metric: '56%', tone: 'down', label: 'AI 代码安全通过率', detail: 'Veracode 2026：45% 的样本引入 OWASP Top 10 漏洞；过去 18 个月在 45–55% 之间横盘' },
-  { metric: '0.34%', tone: 'flat', label: '机器人基础模型占 Physical AI', detail: '2026 年 1.44 亿美元 / 420.6 亿美元。市场上卖的 Physical AI 绝大部分是传感器与仿真' },
+  { metric: '+5% ~ +22%', tone: 'flat', label: '同季度、同行业五家厂商营收增速', detail: 'Cadence +22%、Autodesk +16%、Synopsys EDA +8.5%、PTC +8%、Dassault +5%。差距在层内，不在层间' },
+  { metric: '13.5pct', tone: 'down', label: 'EDA 层内最大增速差', detail: 'Cadence +22% 对 Synopsys EDA 分部 +8.5%。同一层里的差距，大于层与层之间的平均差距' },
+  { metric: '75%', tone: 'up', label: 'Google 新代码由 AI 生成', detail: 'Pichai 2026-04 公司自报。「新代码」定义未公开，无第三方复核，应作低权重证据' },
+  { metric: '56%', tone: 'down', label: 'AI 代码安全通过率', detail: 'Veracode 2026：45% 样本引入 OWASP Top 10 漏洞；过去 18 个月在 45–55% 横盘 —— 能力在涨，可靠性没涨' },
 ];
 
 /* ---------- 四层对照 ---------- */
@@ -29,20 +29,30 @@ const layers = [
   },
   {
     name: 'EDA', heat: 'Agentic 芯片设计全面落地',
-    rev: '行业 178.5 亿美元，+8.1%；Synopsys EDA 内生 +8.5%',
-    verdict: '稳定增长，不是爆发', tone: 'flat',
+    rev: 'Cadence +22%（Q3 2026）；Synopsys EDA 分部 +8.5%（FY26 Q3）。同一层，差 13.5 个百分点',
+    verdict: '分化，不是齐涨齐跌', tone: 'flat',
   },
   {
     name: 'CAD', heat: '2026「AI CAD 元年」',
-    rev: 'Dassault +5%（固定汇率）；ARR 45.5 亿欧元 +6%',
-    verdict: '比 EDA 更慢', tone: 'down',
+    rev: 'Autodesk +16%（含并购）、PTC ARR +8%（剔除剥离）、Dassault +5%',
+    verdict: '分化，且与 EDA 区间重叠', tone: 'flat',
   },
   {
     name: 'Physical AI', heat: '下一个万亿赛道',
-    rev: '整体 420.6 亿美元，但机器人基础模型仅 1.44 亿美元',
-    verdict: '资本领先收入两个数量级', tone: 'flat',
+    rev: '机器人基础模型 1.44 亿美元；整体市场规模两家口径相差 6 倍（420.6 亿 / 71.1 亿），不可用',
+    verdict: '口径不可靠，不作推断依据', tone: 'flat',
   },
 ];
+
+/* ---------- 五家厂商同季度增速 ---------- */
+const VMAX = 25;
+const vendors = [
+  { co: 'Cadence', layer: 'EDA', v: 22.0, note: 'Q3 2026，所有产品线双位数增长', tone: 'accent' },
+  { co: 'Autodesk', layer: 'CAD', v: 16.0, note: 'FY27 Q2，含 MaintainX 并表', tone: 'slate' },
+  { co: 'Synopsys（EDA 分部）', layer: 'EDA', v: 8.5, note: 'FY26 Q3；总营收 +42% 含 Ansys', tone: 'accent' },
+  { co: 'PTC', layer: 'CAD / PLM', v: 8.0, note: 'FY26 Q4 ARR，剔除剥离业务', tone: 'slate' },
+  { co: 'Dassault', layer: 'CAD / PLM', v: 5.0, note: 'Q3 2026，固定汇率', tone: 'slate' },
+].map((x) => ({ ...x, pct: (x.v / VMAX) * 100 }));
 
 /* ---------- 四象限点位 ---------- */
 const points = [
@@ -138,9 +148,19 @@ const laws = [
 
 /* ---------- 证伪条件 ---------- */
 const falsify = [
-  { event: 'EDA 内生增长突破 15%', meaning: 'AI 确实在扩容 EDA，不只是提效' },
-  { event: 'CAD 厂商能对 AI 功能单独定价（而非捆进订阅）', meaning: '价值捕获发生了，我低估了 CAD' },
-  { event: '机器人数据成本下降一个数量级', meaning: 'Physical AI 会比预期早 2–3 年落地' },
+  { event: '五家厂商的层内增速差距收窄到 5 个百分点以内', meaning: '「层」确实是解释变量，本文的怀疑不成立' },
+  { event: 'EDA / CAD 厂商开始单独披露 AI 功能收入，且占比超过 10%', meaning: 'AI 已经能单独定价，价值捕获成立' },
+  { event: '机器人数据采集成本下降一个数量级', meaning: 'Physical AI 的验证成本曲线被外力打断，会比预期早 2–3 年落地' },
+];
+
+const confidence = [
+  { claim: 'AI Coding 已产生真实、可观的收入', level: '高', note: '多家独立厂商 + 企业支出调查交叉印证。具体数字仍不可复核' },
+  { claim: 'EDA / CAD 的软件收入未出现全行业超高速增长', level: '高', note: '五家审计财报，方向一致；但「分化」比「一致放缓」更准确' },
+  { claim: '采用滞后是系统性的，不只是技术问题', level: '高', note: 'Brynjolfsson J 曲线与 Brookings 成本模型，两条独立路径同向' },
+  { claim: '验证成本决定了跨领域的渗透顺序', level: '低', note: '与数据一致，但无直接检验；层内差异大于层间差异，削弱了「层」的解释力' },
+  { claim: '人的验证能力会因自动化而退化，并反过来拖慢渗透', level: '中', note: '医疗与航空有纵向观察，工业软件未检验' },
+  { claim: 'CAE 是 CAD 爆发的前置条件', level: '低', note: '纯推断，无任何直接证据' },
+  { claim: '中国可能跳过全流程补齐，直接进入 AI 原生', level: '低', note: '情景推演，不是预测' },
 ];
 
 /* ---------- 证据边界 ---------- */
@@ -165,7 +185,9 @@ const evidence = [
       'Claude Code 10 亿美元 ARR、8 家合计 95 亿 —— WIRED 与第三方汇总，口径不完全一致',
       'EDA 行业 2025 约 160 亿 +6%、2026 178.5 亿 +8.1% —— 行业研究，非官方统计',
       'Physical AI 420.6 亿（2026）、机器人基础模型 1.44 亿 —— 第三方市场研究，各家口径差异可达 10 倍，仅作量级参考',
-      'Autodesk FY2026 72.06 亿美元、PTC CAD ARR 8.48 亿 —— 二手转引',
+      'EDA 行业 2025 约 160 亿 +6% —— 行业研究，非官方统计',
+      'Physical AI 市场规模 420.6 亿 / 71.1 亿 —— 两个口径相差 6 倍，本文弃用，不作任何推断依据',
+      'Cursor 超 20 亿美元 ARR、Pichai「75% 新代码」—— 公司自报或匿名信源，无可复核的口径定义',
     ],
   },
   {
@@ -182,7 +204,12 @@ const evidence = [
 
 const sources = [
   'Synopsys，Q3 Fiscal Year 2026 Financial Results，2026-08-26',
-  'Cadence，Q3 2026 财报；Cadence Maestro 发布新闻稿',
+  'Cadence，Q3 2026 Financial Results（SEC EX-99.01），2026-10-26',
+  'Autodesk，Fiscal 2027 Second Quarter Results，2026-08-27',
+  'PTC，Fourth Fiscal Quarter and Full Fiscal Year 2026 Results，2026-11-04',
+  'Fleming, Li & Thompson，The last mile problem in AI，Brookings，2024-08-29',
+  'Brynjolfsson, Rock & Syverson，Productivity J-Curve / 无形互补投资，NBER',
+  'Gan & Gan，Maintaining Human Verification Capacity under Automation，arXiv:2609.38459，2026-09-29',
   'Siemens，Siemens & TSMC to advance AI for semiconductor design，2026-04-22',
   'Synopsys & TSMC，Agentic AI and Advanced Design 合作，2026-09-23',
   'Dassault Systèmes，2026 年第三季度业绩，2026-10-28',
@@ -201,14 +228,14 @@ const sources = [
     <div class="container-prose">
       <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent-700 dark:text-accent-400">Methodology · Verification Cost</p>
       <h1 class="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl dark:text-white">
-        验证成本框架：AI 为什么先吃掉软件，最后才碰物理世界
+        AI 渗透顺序：一个假设，和它现在的证据强度
       </h1>
       <p class="mt-4 max-w-3xl text-base leading-relaxed text-slate-600 dark:text-slate-300">
         常见的判断是：AI 先在软件开发爆发，再到 EDA，再到 CAD，最后到 Physical AI —— 一条
         <span class="font-semibold text-slate-900 dark:text-slate-100">「软件 → 电子 → 硬件 → 物理」</span>
-        的领域链。这个顺序能被观察到，但解释它的不是领域，是
-        <span class="font-semibold text-slate-900 dark:text-slate-100">验证成本</span>：
-        做错了多久知道、错了赔多少、能不能由机器判对错。
+        的领域链。<span class="font-semibold text-slate-900 dark:text-slate-100">这个顺序能被看到，但它不是被解释清楚的。</span>
+        本文做两件事：把五家厂商的同季度数字并排放（结果发现层内差异大于层间差异），
+        以及把「验证成本」这个解释按证据强度分级 —— 它的核心结论置信度是<b>低</b>，不是高。
       </p>
       <p class="mt-4 text-sm text-slate-500 dark:text-slate-400">
         数据截至 2026-11 · 来源：Synopsys / Cadence / Dassault 财报、Veracode、Menlo、华大九天、行业研究
@@ -225,8 +252,10 @@ const sources = [
   <section class="py-10">
     <div class="container-prose">
       <p class="rounded-2xl border border-accent-300 bg-accent-50 p-6 text-base font-medium leading-relaxed text-slate-800 dark:border-accent-800 dark:bg-accent-950/30 dark:text-slate-100">
-        一句话：<span class="font-bold">AI 不是在「领域」上按顺序推进，是在「责任」上按顺序推进。</span>
-        它先吃掉不用负责的部分，最后才碰要签字的部分。
+        一句话：<span class="font-bold">能确定的是 AI 在软件层已经赚到钱，在 EDA 和 CAD 还没有形成全行业拐点。</span>
+        不能确定的是「为什么是这个顺序」—— 本文给出一个假设，并标注它的置信度是低。
+        <br />
+        <span class="text-sm font-normal opacity-80">把五家厂商的同季度数字并排看，层内的差距比层间还大：这说明「属于哪一层」解释不了增速，「公司自己的结构」才行。</span>
       </p>
     </div>
   </section>
@@ -320,8 +349,74 @@ const sources = [
           </table>
         </div>
         <p class="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-          媒体标题用的是 42%。但其中近三成来自收购，真正的自己长出来的部分只有 8.5%。
-          <span class="font-semibold text-slate-900 dark:text-slate-100">说「AI 在 EDA 爆发」，在财务上是不成立的。</span>
+          媒体标题用的是 42%。但其中近三成来自收购，Synopsys 的 EDA 分部本身只长 8.5%。
+        </p>
+        <p class="mt-3 rounded-xl border-l-4 border-amber-500 bg-amber-50/70 p-4 text-sm font-medium leading-relaxed text-slate-800 dark:bg-amber-950/20 dark:text-slate-200">
+          <span class="font-bold">但这是「一家公司」，不是「一个行业」。</span>
+          把另外四家补上之后，结论变了 —— 见下。
+        </p>
+      </div>
+
+      <!-- 层内差异 vs 层间差异 -->
+      <div class="mt-10 rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+        <div class="flex flex-wrap items-baseline justify-between gap-2">
+          <h3 class="text-base font-bold text-slate-900 dark:text-slate-100">补齐四家之后：层内差异，比层间差异更大</h3>
+          <span class="text-xs font-medium text-slate-400 dark:text-slate-500">同期营收增速 · 各家最新已披露季度</span>
+        </div>
+
+        <div class="mt-6 space-y-5">
+          {vendors.map((x) => (
+            <div>
+              <div class="mb-1.5 flex flex-wrap items-baseline justify-between gap-2">
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                  {x.co}
+                  <span
+                    class:list={[
+                      'ml-2 rounded px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider',
+                      x.tone === 'accent'
+                        ? 'bg-accent-100 text-accent-700 dark:bg-accent-950 dark:text-accent-300'
+                        : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300',
+                    ]}
+                  >{x.layer}</span>
+                </p>
+                <p
+                  class:list={[
+                    'text-sm font-bold tabular-nums',
+                    x.tone === 'accent' ? 'text-accent-700 dark:text-accent-400' : 'text-slate-700 dark:text-slate-300',
+                  ]}
+                >+{x.v.toFixed(1)}%</p>
+              </div>
+              <div class="h-2.5 w-full rounded-full bg-slate-100 dark:bg-slate-800">
+                <div
+                  class:list={[
+                    'h-2.5 rounded-full',
+                    x.tone === 'accent' ? 'bg-accent-600 dark:bg-accent-500' : 'bg-slate-500 dark:bg-slate-400',
+                  ]}
+                  style={`width: ${x.pct}%`}
+                />
+              </div>
+              <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{x.note}</p>
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-6 grid gap-3 sm:grid-cols-2">
+          <div class="rounded-xl bg-accent-50 p-4 dark:bg-accent-950/30">
+            <p class="text-xs font-bold uppercase tracking-wider text-accent-700 dark:text-accent-400">EDA 内部</p>
+            <p class="mt-1 text-sm font-bold text-slate-900 dark:text-slate-100">8.5% — 22.0%（差 13.5 pct）</p>
+          </div>
+          <div class="rounded-xl bg-slate-100 p-4 dark:bg-slate-800/70">
+            <p class="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">CAD 内部</p>
+            <p class="mt-1 text-sm font-bold text-slate-900 dark:text-slate-100">5.0% — 16.0%（差 11.0 pct）</p>
+          </div>
+        </div>
+
+        <p class="mt-5 rounded-xl border-l-4 border-rose-500 bg-rose-50/70 p-4 text-sm font-medium leading-relaxed text-slate-800 dark:bg-rose-950/20 dark:text-slate-200">
+          <span class="font-bold">两个区间几乎完全重叠。</span>
+          Cadence（EDA）比 Autodesk（CAD）快，Synopsys 的 EDA 分部（8.5%）又和 PTC（8%）差不多。
+          <br />
+          如果「层」是解释变量，层内差距不该这么大。所以真正决定增速的，是
+          <span class="font-bold">公司自己的产品结构、客户结构和周期位置</span>，不是它属于哪一层。
         </p>
       </div>
 
@@ -336,10 +431,20 @@ const sources = [
   <!-- 二、验证成本框架 + 四象限 -->
   <section class="border-t border-slate-200 py-12 dark:border-slate-800">
     <div class="container-prose">
-      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">二、真正驱动顺序的，是验证成本</h2>
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">二、一个假设：验证成本</h2>
       <p class="mt-3 max-w-3xl text-base leading-relaxed text-slate-600 dark:text-slate-300">
-        如果顺序不是「软件 → 硬件」，那是什么？三个因子能解释四个领域的全部差异。
+        如果顺序不是「软件 → 硬件」，那是什么？下面这个框架是<span class="font-semibold text-slate-900 dark:text-slate-100">综合既有文献</span>得到的假设，
+        <span class="font-semibold text-slate-900 dark:text-slate-100">不是本文原创，也没有被直接检验过</span>。
       </p>
+      <div class="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm leading-relaxed text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
+        <p class="font-semibold text-slate-800 dark:text-slate-200">三条平行文献，是它的来源：</p>
+        <ul class="mt-2 space-y-1.5">
+          <li>· <span class="font-semibold">最后一公里成本</span>（Fleming, Li &amp; Thompson 2024, Brookings）：定制化部署成本决定第二阶段自动化的速度，框架为端到端成本模型</li>
+          <li>· <span class="font-semibold">无形互补投资 / 生产率 J 曲线</span>（Brynjolfsson et al., NBER）：采用滞后不是技术问题，是组织投资不可测、见效要多年</li>
+          <li>· <span class="font-semibold">验证能力维护</span>（Gan &amp; Gan 2026, arXiv:2609.38459）：自动化检查越准，人维护独立判断的激励越弱</li>
+        </ul>
+        <p class="mt-2">本文的增量只是把这三条装进一个可比较的坐标里，并用四个领域的公开数据做了一次一致性检查。</p>
+      </div>
 
       <div class="mt-8 grid gap-4 sm:grid-cols-3">
         <div class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
@@ -447,6 +552,41 @@ const sources = [
         软件先爆发不是因为代码简单 —— 是因为测试便宜到可以免费跑一万次。
         EDA 没爆发不是因为芯片设计难 —— 是因为 signoff 那一下，没人敢让机器签。
       </p>
+
+      <!-- 机制：验证能力会退化 -->
+      <div class="mt-8 rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+        <p class="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400">这一版新增的机制</p>
+        <h3 class="mt-2 text-lg font-bold text-slate-900 dark:text-slate-100">验证成本不是静态的 —— 它会因为自动化而退化</h3>
+        <p class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+          Gan &amp; Gan（2026）的结论如果不成立，上面这个框架就只是「成本高所以慢」的同义反复。
+          但它的结论是：<span class="font-semibold text-slate-900 dark:text-slate-100">自动化检查越准，组织维护独立判断能力的激励越弱</span> ——
+          检查器正常工作时检出率更高，一旦检查器失效，检出率反而更低。证据来自结肠镜与航空领域的纵向观察，
+          <span class="font-semibold">尚未在工业软件中被检验</span>。
+        </p>
+
+        <div class="mt-5 grid gap-3 sm:grid-cols-2">
+          <div class="rounded-xl border border-slate-200 p-4 dark:border-slate-800">
+            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">静态版本</p>
+            <p class="mt-2 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+              验证成本高 → 渗透慢
+            </p>
+            <p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400">只是「慢」，可以被时间和更强的模型解决</p>
+          </div>
+          <div class="rounded-xl border border-rose-200 bg-rose-50/60 p-4 dark:border-rose-900 dark:bg-rose-950/20">
+            <p class="text-xs font-bold uppercase tracking-wider text-rose-700 dark:text-rose-400">动态版本</p>
+            <p class="mt-2 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+              验证成本高 → 依赖自动化 → 人的验证能力退化 → 出错时无人兜底 → 责任无法转移 → 渗透更慢
+            </p>
+            <p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400">自我强化，不会自己消失</p>
+          </div>
+        </div>
+
+        <p class="mt-4 rounded-xl bg-slate-50 p-4 text-sm leading-relaxed text-slate-700 dark:bg-slate-950 dark:text-slate-300">
+          <span class="font-semibold text-slate-900 dark:text-slate-100">这解释了一个静态框架解释不了的现象：</span>
+          AI Coding 用了两年，审查反而成了更大的瓶颈，而不是更小。
+          如果只是「成本高」，成本应该随着工具变好而下降 —— 但它没有。
+        </p>
+      </div>
     </div>
   </section>
 
@@ -545,18 +685,18 @@ const sources = [
       <div class="mt-8 grid gap-4 sm:grid-cols-3">
         <div class="rounded-2xl border border-rose-200 bg-rose-50/60 p-5 dark:border-rose-900 dark:bg-rose-950/20">
           <p class="text-xs font-bold uppercase tracking-wider text-rose-700 dark:text-rose-400">反面证据一</p>
-          <p class="mt-2 text-sm font-bold leading-snug text-slate-900 dark:text-slate-100">EDA 内生只有 +8.5%</p>
-          <p class="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-300">如果 AI 真的在改造 EDA，这个数应该在 15% 以上。</p>
+          <p class="mt-2 text-sm font-bold leading-snug text-slate-900 dark:text-slate-100">层内差距 13.5 pct</p>
+          <p class="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-300">EDA 内部从 +8.5% 到 +22%。层内差比层间差还大，说明「层」不是解释变量。</p>
         </div>
         <div class="rounded-2xl border border-rose-200 bg-rose-50/60 p-5 dark:border-rose-900 dark:bg-rose-950/20">
           <p class="text-xs font-bold uppercase tracking-wider text-rose-700 dark:text-rose-400">反面证据二</p>
-          <p class="mt-2 text-sm font-bold leading-snug text-slate-900 dark:text-slate-100">CAD 只有 +5%</p>
-          <p class="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-300">比 EDA 更慢，说明「AI CAD 元年」目前还是厂商叙事。</p>
+          <p class="mt-2 text-sm font-bold leading-snug text-slate-900 dark:text-slate-100">Physical AI 口径差 6 倍</p>
+          <p class="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-300">420.6 亿与 71.1 亿美元两个口径并存，说明这个市场还没有可信的统计基础。</p>
         </div>
         <div class="rounded-2xl border border-rose-200 bg-rose-50/60 p-5 dark:border-rose-900 dark:bg-rose-950/20">
           <p class="text-xs font-bold uppercase tracking-wider text-rose-700 dark:text-rose-400">反面证据三</p>
-          <p class="mt-2 text-sm font-bold leading-snug text-slate-900 dark:text-slate-100">安全通过率横盘 18 个月</p>
-          <p class="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-300">能力在涨，可靠性没涨 —— 这是渗透的天花板。</p>
+          <p class="mt-2 text-sm font-bold leading-snug text-slate-900 dark:text-slate-100">最漂亮的数字都不可复核</p>
+          <p class="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-300">75% 新代码、Cursor 20 亿 ARR —— 都是公司自报或匿名信源，没有一份经审计。</p>
         </div>
       </div>
 
@@ -703,6 +843,44 @@ const sources = [
             </ul>
           </div>
         ))}
+      </div>
+
+      <!-- 置信度分级 -->
+      <div class="mt-10">
+        <h3 class="text-base font-bold text-slate-900 dark:text-slate-100">七条结论的置信度分级</h3>
+        <p class="mt-1.5 text-sm text-slate-500 dark:text-slate-400">置信度按「最弱的那条被使用证据」校准，不是按最抓人的那个数字。</p>
+        <div class="mt-4 overflow-x-auto overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800">
+          <table class="w-full min-w-[640px] text-left text-sm">
+            <thead class="bg-slate-50 dark:bg-slate-950/50">
+              <tr>
+                <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">结论</th>
+                <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">置信</th>
+                <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">依据与限制</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+              {confidence.map((c) => (
+                <tr class="bg-white align-top dark:bg-slate-900">
+                  <td class="px-4 py-3 font-semibold text-slate-900 dark:text-slate-100">{c.claim}</td>
+                  <td
+                    class:list={[
+                      'px-4 py-3 whitespace-nowrap font-bold',
+                      c.level === '高' ? 'text-emerald-600 dark:text-emerald-400'
+                        : c.level === '中' ? 'text-amber-600 dark:text-amber-400'
+                        : 'text-rose-600 dark:text-rose-400',
+                    ]}
+                  >{c.level}</td>
+                  <td class="px-4 py-3 text-xs leading-relaxed text-slate-600 dark:text-slate-300">{c.note}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+          最能站住的两条（财报数字）只能证明<span class="font-semibold text-slate-900 dark:text-slate-100">「没有全行业超高速增长」</span>，
+          不能证明<span class="font-semibold text-slate-900 dark:text-slate-100">「为什么是这个顺序」</span>。
+          而后者才是这类文章通常想要给出的答案。
+        </p>
       </div>
 
       <p class="mt-6 rounded-xl bg-slate-100 p-4 text-sm leading-relaxed text-slate-600 dark:bg-slate-900 dark:text-slate-300">
