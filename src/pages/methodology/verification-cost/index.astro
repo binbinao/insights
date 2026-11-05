@@ -1,0 +1,728 @@
+---
+/**
+ * /methodology/verification-cost/ — 验证成本框架：AI 渗透为什么是这个顺序
+ *
+ * 核心论点：AI 的渗透顺序不是"软件→电子→硬件→物理"，而是"验证成本从低到高"；
+ *          四个"爆发"里只有 AI Coding 兑现，EDA 内生 +8.5%，CAD +5%
+ * 数据窗口：截至 2026-11
+ * 来源：Synopsys/Cadence/Dassault 财报、Veracode、Menlo、华大九天、行业研究
+ */
+import ResearchLayout from '../../../layouts/ResearchLayout.astro';
+
+const title = '验证成本框架：AI 为什么先吃掉软件，最后才碰物理世界 · Robin Ji';
+const description =
+  'AI 渗透的四层节奏（Coding → EDA → CAD → Physical AI）不是领域链，是验证成本链。四个"爆发"里只有 AI Coding 兑现：EDA 内生增长 +8.5%，CAD +5%。附四象限图、三条贯穿规律与三个证伪条件。';
+
+const kpis = [
+  { metric: '+8.5%', tone: 'flat', label: 'Synopsys EDA 内生增长', detail: '同期总营收 +42%，但其中 28.7% 来自 Ansys 并表。EDA 真正自己长出来的只有 8.5%' },
+  { metric: '75%', tone: 'up', label: 'Google 新代码由 AI 生成', detail: 'Pichai 2026-04 公开表述。四层里唯一一个渗透率有硬数据支撑的' },
+  { metric: '56%', tone: 'down', label: 'AI 代码安全通过率', detail: 'Veracode 2026：45% 的样本引入 OWASP Top 10 漏洞；过去 18 个月在 45–55% 之间横盘' },
+  { metric: '0.34%', tone: 'flat', label: '机器人基础模型占 Physical AI', detail: '2026 年 1.44 亿美元 / 420.6 亿美元。市场上卖的 Physical AI 绝大部分是传感器与仿真' },
+];
+
+/* ---------- 四层对照 ---------- */
+const layers = [
+  {
+    name: 'AI Coding', heat: '已经成熟，重构开发流程',
+    rev: '8 家合计 run-rate 约 95 亿美元；Cursor 超 20 亿（三个月翻倍）',
+    verdict: '真爆发', tone: 'up',
+  },
+  {
+    name: 'EDA', heat: 'Agentic 芯片设计全面落地',
+    rev: '行业 178.5 亿美元，+8.1%；Synopsys EDA 内生 +8.5%',
+    verdict: '稳定增长，不是爆发', tone: 'flat',
+  },
+  {
+    name: 'CAD', heat: '2026「AI CAD 元年」',
+    rev: 'Dassault +5%（固定汇率）；ARR 45.5 亿欧元 +6%',
+    verdict: '比 EDA 更慢', tone: 'down',
+  },
+  {
+    name: 'Physical AI', heat: '下一个万亿赛道',
+    rev: '整体 420.6 亿美元，但机器人基础模型仅 1.44 亿美元',
+    verdict: '资本领先收入两个数量级', tone: 'flat',
+  },
+];
+
+/* ---------- 四象限点位 ---------- */
+const points = [
+  { name: 'AI Coding', x: 150, y: 398, r: 30, sub: '渗透 75%', tone: 'emerald' },
+  { name: 'EDA', x: 315, y: 218, r: 30, sub: '内生 +8.5%', tone: 'slate' },
+  { name: 'CAD', x: 462, y: 190, r: 30, sub: '+5%', tone: 'slate' },
+  { name: 'Physical AI', x: 608, y: 104, r: 30, sub: '数据瓶颈', tone: 'amber' },
+];
+
+/* ---------- 逐层解剖 ---------- */
+const anatomy = [
+  {
+    name: 'AI Coding',
+    status: '已经跨过临界点，但瓶颈已经转移',
+    rows: [
+      ['Cursor', '年化超 20 亿美元，三个月翻倍'],
+      ['Claude Code', '年化 10 亿美元（2025-11 披露）'],
+      ['8 家合计', 'run-rate 约 95 亿美元'],
+      ['企业 AI 部署支出', '1,770 亿美元（Menlo，2026-09），去年 330 亿'],
+    ],
+    callout: 'AI Coding 把问题从「写得慢」变成「审不过来」。这就是第一个规律：瓶颈不会消失，它只会往下游移动。',
+    tone: 'emerald',
+  },
+  {
+    name: 'EDA',
+    status: 'AI 是功能，不是新品类',
+    rows: [
+      ['Cadence', 'Maestro —— 领域专用 AI 模型组合（2026）'],
+      ['Synopsys', '与台积电合作 agentic AI（2026-09-23）'],
+      ['Siemens', '与台积电合作 AI 自动化，落地 AI agent（2026-04-22）'],
+      ['行业规模', '2025 约 160 亿美元 +6%；2026 178.5 亿 +8.1%；三巨头约 90%'],
+    ],
+    callout: '三个结构性原因：按席位 + 流片卖而不按调用卖；signoff 责任不能转移；工艺库绑定才是护城河。AI 是「让老客户干得更快」，不是「让新客户进来」。',
+    tone: 'slate',
+  },
+  {
+    name: 'CAD',
+    status: '生成容易，验证难',
+    rows: [
+      ['SOLIDWORKS 2026', 'AURA 助手'],
+      ['PTC Creo 13', 'AI Assistant'],
+      ['Siemens NX', 'Copilot'],
+      ['Dassault Q3 2026', '15.52 亿欧元 +5%（固定汇率）；ARR 45.5 亿欧元 +6%'],
+    ],
+    callout: 'CAD 的验证链比 EDA 长两段：几何有效 → 物理仿真 → 可制造性（DFM）→ 试制。几何有效不等于可制造 —— 壁厚不够、拔模角不对、刀具进不去，CAD 内核验证不了。',
+    tone: 'rose',
+  },
+  {
+    name: 'Physical AI',
+    status: '数据是唯一的瓶颈，也是最贵的',
+    rows: [
+      ['市场整体', '2026 年 420.6 亿美元，2034 年 2,940 亿，CAGR 27.5%'],
+      ['机器人基础模型', '2026 年 1.44 亿美元，占整体的 0.34%'],
+      ['遥操作', '质量高、成本极高；换一个任务就从头再来'],
+      ['仿真合成 / 人类视频', '成本低，但分别有 sim-to-real 差距与动作标签缺失'],
+    ],
+    callout: 'Physical AI 不缺模型，不缺算力，不缺资本。缺的是「错一次要多久知道」—— 而现在是一天到一个月，甚至更久。',
+    tone: 'amber',
+  },
+];
+
+/* ---------- 三条规律 ---------- */
+const laws = [
+  {
+    n: '规律一',
+    name: '瓶颈下沉：上一层的瓶颈，就是下一层的生意',
+    table: [
+      ['AI Coding', '代码审查不过来了', 'Sonar 等 AI 代码审查'],
+      ['EDA', 'signoff 前验证太慢', 'Synopsys + 台积电 agentic verification'],
+      ['CAD', '可制造性验证缺失', 'CAE / DFM / 工艺知识'],
+      ['Physical AI', '真实世界数据太贵', '仿真合成数据'],
+    ],
+    note: '这条规律的价值在于：它告诉你下一波钱在哪 —— 不是在最热的层，是在「上一层的瓶颈」上。',
+  },
+  {
+    n: '规律二',
+    name: '价值向「责任」迁移，而不是向「能力」迁移',
+    table: [
+      ['AI Coding', '模型公司 + IDE（Cursor / Anthropic）', '错误代价低，责任可完全交给用户'],
+      ['EDA', '工具公司（三巨头 90%）', 'signoff 责任 + 工艺库 + 客户不敢换'],
+      ['CAD', '平台公司（Dassault / Autodesk / PTC）', 'PDM / PLM 数据锁定 + 制造知识'],
+      ['Physical AI', '硬件 + 数据方', '安全责任无法转移给模型'],
+    ],
+    note: 'AI 越强，越替代不了「承担责任的环节」。所以「谁签字」比「谁最强」更决定价值链位置。',
+  },
+  {
+    n: '规律三',
+    name: '越往物理走，越难被「模型公司」吃掉',
+    table: [],
+    note: '软件层，一个模型公司可以直接从底层掀翻工具公司（Cursor 对 JetBrains）。到了 CAD 和 Physical AI，模型公司进不来：需要的是几何、材料、工艺、公差知识；数据在企业私有 PLM / MES 里；出错要有人承担法律责任。Anthropic / OpenAI 在软件层势如破竹，在工业软件层几乎没声音 —— 因为按 token 卖和按席位 + 责任卖，商业模式不兼容。',
+  },
+];
+
+/* ---------- 证伪条件 ---------- */
+const falsify = [
+  { event: 'EDA 内生增长突破 15%', meaning: 'AI 确实在扩容 EDA，不只是提效' },
+  { event: 'CAD 厂商能对 AI 功能单独定价（而非捆进订阅）', meaning: '价值捕获发生了，我低估了 CAD' },
+  { event: '机器人数据成本下降一个数量级', meaning: 'Physical AI 会比预期早 2–3 年落地' },
+];
+
+/* ---------- 证据边界 ---------- */
+const evidence = [
+  {
+    tag: '一手来源（可直接引用）',
+    tone: 'ok',
+    items: [
+      'Synopsys 2026 财年 Q3：营收 24.77 亿美元、+42%、Ansys 7.11 亿、EDA 内生 +8.5% —— 公司财报与电话会',
+      'Cadence Maestro、Synopsys-台积电 agentic AI、Siemens-台积电 —— 各公司官方新闻稿',
+      'Dassault Systèmes 2026 Q3：15.52 亿欧元、+5% 固定汇率、ARR 45.5 亿欧元 —— 公司财报',
+      'Veracode 2026 GenAI Code Security Report：平均通过率 56%、45% 引入 OWASP Top 10',
+      'Google 75% 新代码 AI 生成 —— Pichai 公开发言，2026-04',
+      '华大九天 2025 年营收 13.25 亿元；国产 EDA 覆盖率 30%→85% —— 公司年报与董事长公开表述',
+    ],
+  },
+  {
+    tag: '二手来源（需注明出处）',
+    tone: 'warn',
+    items: [
+      'Cursor 超 20 亿美元 ARR —— Bloomberg / TechCrunch，厂商未确认',
+      'Claude Code 10 亿美元 ARR、8 家合计 95 亿 —— WIRED 与第三方汇总，口径不完全一致',
+      'EDA 行业 2025 约 160 亿 +6%、2026 178.5 亿 +8.1% —— 行业研究，非官方统计',
+      'Physical AI 420.6 亿（2026）、机器人基础模型 1.44 亿 —— 第三方市场研究，各家口径差异可达 10 倍，仅作量级参考',
+      'Autodesk FY2026 72.06 亿美元、PTC CAD ARR 8.48 亿 —— 二手转引',
+    ],
+  },
+  {
+    tag: '本文判断（无引用，可被推翻）',
+    tone: 'note',
+    items: [
+      '验证成本三因子框架（反馈延迟 × 错误代价 × 可机器验证）',
+      '「顺序是责任成本的排序」',
+      '「CAE 是 CAD 爆发的前置条件」',
+      '三条证伪条件的阈值设定',
+    ],
+  },
+];
+
+const sources = [
+  'Synopsys，Q3 Fiscal Year 2026 Financial Results，2026-08-26',
+  'Cadence，Q3 2026 财报；Cadence Maestro 发布新闻稿',
+  'Siemens，Siemens & TSMC to advance AI for semiconductor design，2026-04-22',
+  'Synopsys & TSMC，Agentic AI and Advanced Design 合作，2026-09-23',
+  'Dassault Systèmes，2026 年第三季度业绩，2026-10-28',
+  'Autodesk FY2026 年报；PTC 2026 财年季度披露',
+  'Veracode，2026 GenAI Code Security Report',
+  'Menlo Ventures，2026: The State of Enterprise AI',
+  'Google / Sundar Pichai，关于 75% 新代码由 AI 生成的公开表述，2026-04',
+  '华大九天 2025 年年报；刘伟平于第 26 届中国国际工业博览会表述，2026-10-12；HUG 2026',
+  'Jay Vleeschhouwer，EDA Market Primer / DAC 2025 行业数据',
+  'NVIDIA，Cosmos / Isaac / GR00T 相关发布（CES 2026、GTC 2026）',
+];
+---
+
+<ResearchLayout title={title} description={description} section="methodology">
+  <section class="border-b border-slate-200/80 bg-gradient-to-b from-slate-50 to-transparent py-16 dark:border-slate-800 dark:from-slate-900/50">
+    <div class="container-prose">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent-700 dark:text-accent-400">Methodology · Verification Cost</p>
+      <h1 class="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl dark:text-white">
+        验证成本框架：AI 为什么先吃掉软件，最后才碰物理世界
+      </h1>
+      <p class="mt-4 max-w-3xl text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        常见的判断是：AI 先在软件开发爆发，再到 EDA，再到 CAD，最后到 Physical AI —— 一条
+        <span class="font-semibold text-slate-900 dark:text-slate-100">「软件 → 电子 → 硬件 → 物理」</span>
+        的领域链。这个顺序能被观察到，但解释它的不是领域，是
+        <span class="font-semibold text-slate-900 dark:text-slate-100">验证成本</span>：
+        做错了多久知道、错了赔多少、能不能由机器判对错。
+      </p>
+      <p class="mt-4 text-sm text-slate-500 dark:text-slate-400">
+        数据截至 2026-11 · 来源：Synopsys / Cadence / Dassault 财报、Veracode、Menlo、华大九天、行业研究
+      </p>
+      <p class="mt-4 text-sm">
+        <a href="../" class="font-semibold text-accent-700 underline underline-offset-4 hover:text-accent-800 dark:text-accent-400">框架地图 →</a>
+        <span class="mx-2 text-slate-400">·</span>
+        <a href="../../industries/ai-compute-supply/" class="font-semibold text-accent-700 underline underline-offset-4 hover:text-accent-800 dark:text-accent-400">AI 算力供给周报 →</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 核心结论 -->
+  <section class="py-10">
+    <div class="container-prose">
+      <p class="rounded-2xl border border-accent-300 bg-accent-50 p-6 text-base font-medium leading-relaxed text-slate-800 dark:border-accent-800 dark:bg-accent-950/30 dark:text-slate-100">
+        一句话：<span class="font-bold">AI 不是在「领域」上按顺序推进，是在「责任」上按顺序推进。</span>
+        它先吃掉不用负责的部分，最后才碰要签字的部分。
+      </p>
+    </div>
+  </section>
+
+  <!-- KPI -->
+  <section class="pb-12">
+    <div class="container-prose">
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {kpis.map((k) => (
+          <div class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+            <p
+              class:list={[
+                'text-3xl font-bold tabular-nums',
+                k.tone === 'up' ? 'text-emerald-600 dark:text-emerald-400'
+                  : k.tone === 'down' ? 'text-rose-600 dark:text-rose-400'
+                  : 'text-accent-700 dark:text-accent-400',
+              ]}
+            >{k.metric}</p>
+            <p class="mt-2 text-sm font-semibold leading-snug text-slate-900 dark:text-slate-100">{k.label}</p>
+            <p class="mt-1.5 text-xs leading-relaxed text-slate-500 dark:text-slate-400">{k.detail}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 一、四个爆发只有一个真爆 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">一、四个「爆发」，只有一个真爆了</h2>
+      <p class="mt-3 max-w-3xl text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        这个判断链最容易被忽略的地方是：四层被当成同一种性质的「爆发」，但它们处在完全不同的收入阶段。
+      </p>
+
+      <div class="mt-8 overflow-x-auto overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800">
+        <table class="w-full min-w-[720px] text-left text-sm">
+          <thead class="bg-slate-50 dark:bg-slate-950/50">
+            <tr>
+              <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">层</th>
+              <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">2026 年的叙事</th>
+              <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">2026 年的收入事实</th>
+              <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">判定</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+            {layers.map((l) => (
+              <tr class="bg-white align-top dark:bg-slate-900">
+                <td class="px-4 py-3 font-semibold text-slate-900 dark:text-slate-100">{l.name}</td>
+                <td class="px-4 py-3 text-slate-600 dark:text-slate-300">{l.heat}</td>
+                <td class="px-4 py-3 text-slate-600 dark:text-slate-300">{l.rev}</td>
+                <td
+                  class:list={[
+                    'px-4 py-3 font-bold',
+                    l.tone === 'up' ? 'text-emerald-600 dark:text-emerald-400'
+                      : l.tone === 'down' ? 'text-rose-600 dark:text-rose-400'
+                      : 'text-amber-600 dark:text-amber-400',
+                  ]}
+                >{l.verdict}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-10 rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+        <h3 class="text-base font-bold text-slate-900 dark:text-slate-100">最关键的一个数字：Synopsys 的 +42% 里藏着真相</h3>
+        <div class="mt-5 overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800">
+          <table class="w-full text-left text-sm">
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+              <tr class="bg-white dark:bg-slate-900">
+                <td class="px-4 py-2.5 text-slate-600 dark:text-slate-300">总营收</td>
+                <td class="px-4 py-2.5 text-right font-bold tabular-nums text-emerald-600 dark:text-emerald-400">24.77 亿美元</td>
+                <td class="px-4 py-2.5 text-right font-bold tabular-nums text-emerald-600 dark:text-emerald-400">+42%</td>
+              </tr>
+              <tr class="bg-white dark:bg-slate-900">
+                <td class="px-4 py-2.5 text-slate-600 dark:text-slate-300">其中 Ansys</td>
+                <td class="px-4 py-2.5 text-right font-bold tabular-nums text-slate-900 dark:text-slate-100">7.11 亿美元</td>
+                <td class="px-4 py-2.5 text-right text-xs font-semibold text-slate-500 dark:text-slate-400">占 28.7%，并表</td>
+              </tr>
+              <tr class="bg-white dark:bg-slate-900">
+                <td class="px-4 py-2.5 text-slate-600 dark:text-slate-300">设计自动化</td>
+                <td class="px-4 py-2.5 text-right font-bold tabular-nums text-slate-900 dark:text-slate-100">20.00 亿美元</td>
+                <td class="px-4 py-2.5 text-right font-bold tabular-nums text-emerald-600 dark:text-emerald-400">+52.7%</td>
+              </tr>
+              <tr class="bg-amber-50/70 dark:bg-amber-950/20">
+                <td class="px-4 py-2.5 font-semibold text-slate-900 dark:text-slate-100">　└ 其中 EDA 内生</td>
+                <td class="px-4 py-2.5 text-right text-slate-500 dark:text-slate-400">—</td>
+                <td class="px-4 py-2.5 text-right font-bold tabular-nums text-amber-600 dark:text-amber-400">+8.5%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+          媒体标题用的是 42%。但其中近三成来自收购，真正的自己长出来的部分只有 8.5%。
+          <span class="font-semibold text-slate-900 dark:text-slate-100">说「AI 在 EDA 爆发」，在财务上是不成立的。</span>
+        </p>
+      </div>
+
+      <p class="mt-6 rounded-xl border-l-4 border-accent-500 bg-slate-50 p-4 text-sm font-medium leading-relaxed text-slate-800 dark:bg-slate-900 dark:text-slate-200">
+        还有一个对照，很不体面：<span class="font-bold">Cursor 一家公司的年化收入（20 亿美元），大约等于 Dassault Systèmes 全年营收的 30%。</span>
+        Dassault 是全世界最大的工业软件公司之一，45 年、几万人、完整的 PLM 生态。
+        一个四岁的代码工具公司，做到了它的三分之一。
+      </p>
+    </div>
+  </section>
+
+  <!-- 二、验证成本框架 + 四象限 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">二、真正驱动顺序的，是验证成本</h2>
+      <p class="mt-3 max-w-3xl text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        如果顺序不是「软件 → 硬件」，那是什么？三个因子能解释四个领域的全部差异。
+      </p>
+
+      <div class="mt-8 grid gap-4 sm:grid-cols-3">
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <p class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">因子一</p>
+          <p class="mt-2 text-base font-bold text-slate-900 dark:text-slate-100">反馈延迟</p>
+          <p class="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">错了以后，多久能知道？秒级能高频试错，月级是一次定生死。</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <p class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">因子二</p>
+          <p class="mt-2 text-base font-bold text-slate-900 dark:text-slate-100">错误代价</p>
+          <p class="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">错了要赔多少？回滚一次无所谓，流片失败就是几千万美元。</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <p class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">因子三</p>
+          <p class="mt-2 text-base font-bold text-slate-900 dark:text-slate-100">可机器验证</p>
+          <p class="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">能不能机器判对错？能就是闭环，不能就必须有人签字。</p>
+        </div>
+      </div>
+
+      <p class="mt-6 rounded-xl bg-slate-100 p-4 text-base font-semibold text-slate-800 dark:bg-slate-900 dark:text-slate-200">
+        AI 在某一层的渗透率 ≈ 1 ÷ 验证成本
+      </p>
+
+      <!-- 四象限图 -->
+      <div class="mt-8 rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+        <p class="text-sm font-bold text-slate-900 dark:text-slate-100">验证成本四象限</p>
+        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">横轴：反馈延迟（错了多久知道）· 纵轴：错误代价（错了赔多少）· 坐标为示意刻度，横轴非等距时间比例</p>
+
+        <svg viewBox="0 0 760 500" class="mt-4 w-full" role="img" aria-label="验证成本四象限：AI Coding、EDA、CAD、Physical AI 沿对角线递增">
+          <!-- 网格 -->
+          <g class="stroke-slate-200 dark:stroke-slate-700" stroke-width="1">
+            <line x1="90" y1="440" x2="700" y2="440" />
+            <line x1="90" y1="40" x2="90" y2="440" />
+            <line x1="90" y1="330" x2="700" y2="330" stroke-dasharray="3 4" opacity="0.5" />
+            <line x1="90" y1="220" x2="700" y2="220" stroke-dasharray="3 4" opacity="0.5" />
+            <line x1="90" y1="110" x2="700" y2="110" stroke-dasharray="3 4" opacity="0.5" />
+          </g>
+
+          <!-- 对角线 -->
+          <line x1="150" y1="398" x2="608" y2="104" class="stroke-accent-400 dark:stroke-accent-500" stroke-width="1.5" stroke-dasharray="6 5" opacity="0.55" />
+
+          <!-- Y 轴标签 -->
+          <g class="fill-slate-400 dark:fill-slate-500" font-size="12" text-anchor="end">
+            <text x="78" y="444">低</text>
+            <text x="78" y="334">中</text>
+            <text x="78" y="224">高</text>
+            <text x="78" y="114">极高</text>
+          </g>
+          <text x="34" y="240" class="fill-slate-500 dark:fill-slate-400" font-size="12" font-weight="600" transform="rotate(-90 34 240)" text-anchor="middle">错误代价</text>
+
+          <!-- X 轴标签 -->
+          <g class="fill-slate-400 dark:fill-slate-500" font-size="12" text-anchor="middle">
+            <text x="150" y="462">秒级</text>
+            <text x="315" y="462">分钟级</text>
+            <text x="462" y="462">小时级</text>
+            <text x="608" y="462">天～月</text>
+          </g>
+          <text x="395" y="488" class="fill-slate-500 dark:fill-slate-400" font-size="12" font-weight="600" text-anchor="middle">反馈延迟</text>
+
+          <!-- 点位 -->
+          {points.map((p) => (
+            <g>
+              <circle
+                cx={p.x}
+                cy={p.y}
+                r={p.r}
+                class:list={[
+                  p.tone === 'emerald' ? 'fill-emerald-500/90' : p.tone === 'amber' ? 'fill-amber-500/90' : 'fill-slate-500/80',
+                ]}
+              />
+              <text
+                x={p.x}
+                y={p.y - 44}
+                class="fill-slate-900 dark:fill-slate-100"
+                font-size="13"
+                font-weight="700"
+                text-anchor="middle"
+              >{p.name}</text>
+              <text
+                x={p.x}
+                y={p.y + 4}
+                class="fill-white"
+                font-size="11"
+                font-weight="600"
+                text-anchor="middle"
+                dominant-baseline="middle"
+              >{p.sub}</text>
+            </g>
+          ))}
+
+          <!-- 对角线注释 -->
+          <g transform="rotate(-38 330 290)">
+            <rect x="262" y="277" width="136" height="18" rx="4" class="fill-white dark:fill-slate-900" opacity="0.92" />
+            <text x="330" y="290" class="fill-accent-600 dark:fill-accent-400" font-size="11" font-weight="600" text-anchor="middle">验证成本递增 →</text>
+          </g>
+        </svg>
+
+        <p class="mt-2 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+          四个领域几乎落在同一条对角线上 —— 这就是「顺序」的真实来源。它不是领域顺序，是验证成本顺序。
+        </p>
+      </div>
+
+      <p class="mt-6 rounded-xl border-l-4 border-accent-500 bg-slate-50 p-4 text-sm font-medium leading-relaxed text-slate-800 dark:bg-slate-900 dark:text-slate-200">
+        一个反直觉的推论：最快被 AI 吃掉的，不是最简单的领域，是<span class="font-bold">验证最便宜的领域</span>。
+        软件先爆发不是因为代码简单 —— 是因为测试便宜到可以免费跑一万次。
+        EDA 没爆发不是因为芯片设计难 —— 是因为 signoff 那一下，没人敢让机器签。
+      </p>
+    </div>
+  </section>
+
+  <!-- 三、逐层解剖 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">三、逐层解剖</h2>
+
+      <div class="mt-8 space-y-5">
+        {anatomy.map((a) => (
+          <div class="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+            <div class="flex flex-wrap items-baseline gap-3">
+              <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">{a.name}</h3>
+              <span
+                class:list={[
+                  'text-sm font-semibold',
+                  a.tone === 'emerald' ? 'text-emerald-600 dark:text-emerald-400'
+                    : a.tone === 'rose' ? 'text-rose-600 dark:text-rose-400'
+                    : a.tone === 'amber' ? 'text-amber-600 dark:text-amber-400'
+                    : 'text-slate-500 dark:text-slate-400',
+                ]}
+              >{a.status}</span>
+            </div>
+            <div class="mt-4 overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800">
+              <table class="w-full text-left text-sm">
+                <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+                  {a.rows.map((r) => (
+                    <tr class="bg-white dark:bg-slate-900">
+                      <td class="w-40 px-4 py-2.5 font-semibold text-slate-700 dark:text-slate-300">{r[0]}</td>
+                      <td class="px-4 py-2.5 text-slate-600 dark:text-slate-300">{r[1]}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p class="mt-4 rounded-xl border-l-4 border-accent-500 bg-slate-50 p-4 text-sm font-medium leading-relaxed text-slate-800 dark:bg-slate-950 dark:text-slate-200">
+              {a.callout}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <p class="mt-8 text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        质量数据把 AI Coding 的判断钉死了：Veracode 2026 报告显示，AI 生成代码的安全通过率平均
+        <span class="font-semibold text-slate-900 dark:text-slate-100">56%</span>，
+        <span class="font-semibold text-slate-900 dark:text-slate-100">45%</span> 的样本引入 OWASP Top 10 漏洞，
+        而且过去 18 个月在 45–55% 之间横盘 ——
+        <span class="font-semibold text-slate-900 dark:text-slate-100">AI 的能力在涨，可靠性没涨。</span>
+        这才是渗透的真正天花板。
+      </p>
+    </div>
+  </section>
+
+  <!-- 四、三条规律 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">四、三条贯穿规律</h2>
+
+      <div class="mt-8 space-y-5">
+        {laws.map((l) => (
+          <div class="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+            <p class="text-xs font-bold uppercase tracking-wider text-accent-700 dark:text-accent-400">{l.n}</p>
+            <h3 class="mt-2 text-lg font-bold text-slate-900 dark:text-slate-100">{l.name}</h3>
+
+            {l.table.length > 0 && (
+              <div class="mt-4 overflow-x-auto overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800">
+                <table class="w-full min-w-[560px] text-left text-sm">
+                  <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+                    {l.table.map((r) => (
+                      <tr class="bg-white align-top dark:bg-slate-900">
+                        <td class="w-32 px-4 py-2.5 font-semibold text-slate-700 dark:text-slate-300">{r[0]}</td>
+                        <td class="px-4 py-2.5 text-slate-600 dark:text-slate-300">{r[1]}</td>
+                        <td class="px-4 py-2.5 text-slate-600 dark:text-slate-300">{r[2]}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+
+            <p class="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{l.note}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 五、反面证据与证伪 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">五、反面证据与证伪条件</h2>
+      <p class="mt-3 max-w-3xl text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        一个框架如果无法被推翻，它就不是判断，是信仰。下面是它该被推翻的条件。
+      </p>
+
+      <div class="mt-8 grid gap-4 sm:grid-cols-3">
+        <div class="rounded-2xl border border-rose-200 bg-rose-50/60 p-5 dark:border-rose-900 dark:bg-rose-950/20">
+          <p class="text-xs font-bold uppercase tracking-wider text-rose-700 dark:text-rose-400">反面证据一</p>
+          <p class="mt-2 text-sm font-bold leading-snug text-slate-900 dark:text-slate-100">EDA 内生只有 +8.5%</p>
+          <p class="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-300">如果 AI 真的在改造 EDA，这个数应该在 15% 以上。</p>
+        </div>
+        <div class="rounded-2xl border border-rose-200 bg-rose-50/60 p-5 dark:border-rose-900 dark:bg-rose-950/20">
+          <p class="text-xs font-bold uppercase tracking-wider text-rose-700 dark:text-rose-400">反面证据二</p>
+          <p class="mt-2 text-sm font-bold leading-snug text-slate-900 dark:text-slate-100">CAD 只有 +5%</p>
+          <p class="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-300">比 EDA 更慢，说明「AI CAD 元年」目前还是厂商叙事。</p>
+        </div>
+        <div class="rounded-2xl border border-rose-200 bg-rose-50/60 p-5 dark:border-rose-900 dark:bg-rose-950/20">
+          <p class="text-xs font-bold uppercase tracking-wider text-rose-700 dark:text-rose-400">反面证据三</p>
+          <p class="mt-2 text-sm font-bold leading-snug text-slate-900 dark:text-slate-100">安全通过率横盘 18 个月</p>
+          <p class="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-300">能力在涨，可靠性没涨 —— 这是渗透的天花板。</p>
+        </div>
+      </div>
+
+      <div class="mt-8 overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-slate-50 dark:bg-slate-950/50">
+            <tr>
+              <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">如果 2027 年发生这件事</th>
+              <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">说明这个判断错了</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+            {falsify.map((f) => (
+              <tr class="bg-white align-top dark:bg-slate-900">
+                <td class="px-4 py-3 font-semibold text-slate-900 dark:text-slate-100">{f.event}</td>
+                <td class="px-4 py-3 text-slate-600 dark:text-slate-300">{f.meaning}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <p class="mt-4 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+        目前看，这三条在 2026 年都没有发生。
+      </p>
+    </div>
+  </section>
+
+  <!-- 六、中国的位置 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">六、中国的位置：双线并行，可能跳层</h2>
+
+      <div class="mt-8 grid gap-4 sm:grid-cols-2">
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+          <p class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">国产 EDA</p>
+          <p class="mt-2 text-lg font-bold text-slate-900 dark:text-slate-100">覆盖率上来了，全流程没上来</p>
+          <ul class="mt-3 space-y-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            <li>· 华大九天 2025 年营收 <span class="font-semibold text-slate-900 dark:text-slate-100">13.25 亿元</span></li>
+            <li>· 工具覆盖率从 <span class="font-semibold text-slate-900 dark:text-slate-100">不到 30% 提升到 85%</span>（刘伟平，2026-10-12）</li>
+            <li>· 但「仍缺乏全产业链支撑能力，部分工具性能有待提升」</li>
+            <li>· 国产化率超 50% 的只有平板显示、存储、晶圆制造</li>
+          </ul>
+          <p class="mt-3 rounded-lg bg-amber-50 p-3 text-xs leading-relaxed text-amber-900 dark:bg-amber-950/30 dark:text-amber-200">
+            85% 是「点工具覆盖」，不是「全流程可替代」。前者能进采购清单，后者才能替换三巨头。
+          </p>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+          <p class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">国产 CAD</p>
+          <p class="mt-2 text-lg font-bold text-slate-900 dark:text-slate-100">二维已完成，三维刚起步</p>
+          <ul class="mt-3 space-y-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            <li>· 中望软件：二维接近完全替代</li>
+            <li>· 三维国产品牌第一，但份额仍低</li>
+            <li>· 2026 年出现工业软件 IPO 潮：芯合、合见工软、全芯微、山大华天、同创</li>
+            <li>· 多物理场 CAE 尚未出现王者</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-800 dark:bg-slate-900">
+        <p class="text-sm font-bold text-slate-900 dark:text-slate-100">世界在一条曲线上跑，中国在两条上同时跑</p>
+        <pre class="mt-3 overflow-x-auto text-xs leading-relaxed text-slate-600 dark:text-slate-300">世界：  成熟工具 ──────────────→ AI 化
+中国：  补课（全流程）──┐
+                        ├──→ 同时进行
+        AI 化 ──────────┘</pre>
+        <p class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+          这带来一个真实的可能性：<span class="font-semibold text-slate-900 dark:text-slate-100">跳层</span> ——
+          如果全流程还没补齐，而 AI 原生 CAD 范式已经出现，中国有可能跳过「补齐全流程」，直接做 AI 原生。
+          但同样可能两头不靠：补课没补完，AI 也没追上。这是 2027–2028 年中国工业软件最大的战略分岔。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 七、对仿真的含义 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">七、对仿真与 CAE 的含义</h2>
+
+      <div class="mt-6 rounded-2xl border border-accent-300 bg-accent-50 p-6 dark:border-accent-800 dark:bg-accent-950/30">
+        <p class="text-base font-medium leading-relaxed text-slate-800 dark:text-slate-100">
+          按验证成本框架，四个瓶颈里有<span class="font-bold">两个落在「仿真验证」上</span>：
+          CAD 的可制造性验证，和 Physical AI 的合成数据。
+          <br />
+          这不是巧合 —— 因为验证是唯一不能靠「生成」解决的问题。
+        </p>
+      </div>
+
+      <div class="mt-6 space-y-3">
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <p class="text-sm font-bold text-slate-900 dark:text-slate-100">① 不要把 CAE 讲成「算得更快」</p>
+          <p class="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            GPU 加速求解器是 2015 年的故事。2026 年的故事是：AI 生成的设计，需要有人证明它能造出来。
+            卖点从「算力」变成「判定」。
+          </p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <p class="text-sm font-bold text-slate-900 dark:text-slate-100">② CAD 厂商是客户，不是对手</p>
+          <p class="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            一个 AI CAD 工具一天生成 100 个方案，就需要 100 次可制造性判定 —— 这在人工时代不可能，只能自动化。
+            CAD 的 AI 化，是 CAE 自动化的需求放大器。
+          </p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <p class="text-sm font-bold text-slate-900 dark:text-slate-100">③ 真正的护城河是「工艺知识」，不是「求解器」</p>
+          <p class="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            求解器会开源、会商品化。工艺知识（这家工厂的刀具、这台压机的回弹、这个材料的收缩率）不会。
+            7,000 个真实工程案例，比算法值钱。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 八、证据边界 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">八、证据边界</h2>
+      <div class="mt-8 space-y-5">
+        {evidence.map((e) => (
+          <div
+            class:list={[
+              'rounded-2xl border p-6',
+              e.tone === 'ok'
+                ? 'border-emerald-200 bg-emerald-50/60 dark:border-emerald-900 dark:bg-emerald-950/20'
+                : e.tone === 'warn'
+                  ? 'border-amber-200 bg-amber-50/60 dark:border-amber-900 dark:bg-amber-950/20'
+                  : 'border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900',
+            ]}
+          >
+            <h3
+              class:list={[
+                'text-sm font-bold uppercase tracking-wider',
+                e.tone === 'ok' ? 'text-emerald-700 dark:text-emerald-400'
+                  : e.tone === 'warn' ? 'text-amber-700 dark:text-amber-400'
+                  : 'text-slate-600 dark:text-slate-400',
+              ]}
+            >{e.tag}</h3>
+            <ul class="mt-4 space-y-2.5 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+              {e.items.map((i) => (
+                <li class="flex gap-2"><span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-current opacity-40" /><span>{i}</span></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <p class="mt-6 rounded-xl bg-slate-100 p-4 text-sm leading-relaxed text-slate-600 dark:bg-slate-900 dark:text-slate-300">
+        <span class="font-semibold text-slate-800 dark:text-slate-200">明确没有核实的：</span>
+        EDA 厂商 AI 功能的实际使用率与增量收入拆分；CAD 厂商 AI 功能是否已经单独定价；
+        中国 AI-native CAD 的实际项目进度；机器人基础模型市场的真实规模（各家口径差 10 倍以上）。
+      </p>
+    </div>
+  </section>
+
+  <!-- 来源 -->
+  <section class="border-t border-slate-200 py-12 dark:border-slate-800">
+    <div class="container-prose">
+      <h2 class="text-sm font-bold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">数据来源</h2>
+      <ul class="mt-4 space-y-2 text-sm text-slate-600 dark:text-slate-400">
+        {sources.map((s) => <li>· {s}</li>)}
+      </ul>
+      <p class="mt-6 text-xs leading-relaxed text-slate-400 dark:text-slate-500">
+        本文为公开信息分析，非投资建议。市场规模的第三方口径差异较大，正文中仅作量级参考，不作为推断依据。
+      </p>
+    </div>
+  </section>
+</ResearchLayout>
