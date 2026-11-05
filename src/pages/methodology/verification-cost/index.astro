@@ -11,11 +11,11 @@ import ResearchLayout from '../../../layouts/ResearchLayout.astro';
 
 const title = 'AI 渗透顺序：一个假设，和它现在的证据强度 · Robin Ji';
 const description =
-  'AI 的渗透顺序（Coding → EDA → CAD → Physical AI）常被解释为领域链，本文检验"验证成本"这个替代解释。五家厂商同期增速从 +5% 到 +22%，层内差异大于层间差异。附四象限图、七条结论的置信度分级与三个证伪条件。';
+  'AI 的渗透顺序常被解释为领域链，本文检验"验证成本"这个替代解释。海外五家厂商同期增速 +5%~+22%、层内差异大于层间（2.4×）；中国五家 A 股同季度刚好相反（0.12×）—— 同一个分层现象，两套成因。附四象限图与十条结论的置信度分级。';
 
 const kpis = [
   { metric: '+5% ~ +22%', tone: 'flat', label: '同季度、同行业五家厂商营收增速', detail: 'Cadence +22%、Autodesk +16%、Synopsys EDA +8.5%、PTC +8%、Dassault +5%。差距在层内，不在层间' },
-  { metric: '13.5pct', tone: 'down', label: 'EDA 层内最大增速差', detail: 'Cadence +22% 对 Synopsys EDA 分部 +8.5%。同一层里的差距，大于层与层之间的平均差距' },
+  { metric: '2.4× / 0.12×', tone: 'flat', label: '层内差 ÷ 层间差：海外 vs 中国', detail: '海外 2.4 倍（差异在层内），中国 0.12 倍（差异在层间）。同一个分层现象，方向完全相反' },
   { metric: '75%', tone: 'up', label: 'Google 新代码由 AI 生成', detail: 'Pichai 2026-04 公司自报。「新代码」定义未公开，无第三方复核，应作低权重证据' },
   { metric: '56%', tone: 'down', label: 'AI 代码安全通过率', detail: 'Veracode 2026：45% 样本引入 OWASP Top 10 漏洞；过去 18 个月在 45–55% 横盘 —— 能力在涨，可靠性没涨' },
 ];
@@ -53,6 +53,15 @@ const vendors = [
   { co: 'PTC', layer: 'CAD / PLM', v: 8.0, note: 'FY26 Q4 ARR，剔除剥离业务', tone: 'slate' },
   { co: 'Dassault', layer: 'CAD / PLM', v: 5.0, note: 'Q3 2026，固定汇率', tone: 'slate' },
 ].map((x) => ({ ...x, pct: (x.v / VMAX) * 100 }));
+
+/* ---------- 中国对照组（2026 Q3 单季营收同比） ---------- */
+const cnVendors = [
+  { co: '华大九天', layer: 'EDA', v: 29.82, ma: false, note: 'Q3 营收 3.94 亿元；毛利率 88.85%，扣非刚转正' },
+  { co: '广立微', layer: 'EDA', v: 32.71, ma: false, note: 'Q3 营收 2.41 亿元；扣非净利 +93.60%' },
+  { co: '概伦电子', layer: 'EDA', v: 84.45, ma: true, note: 'Q3 营收 1.77 亿元；合并锐成芯微、纳能微，含并表' },
+  { co: '中望软件', layer: 'CAD', v: 7.61, ma: false, note: 'Q3 营收 2.20 亿元；归母净利 −6.47%' },
+  { co: '索辰科技', layer: 'CAE', v: 105.46, ma: true, note: 'Q3 营收约 1.0 亿元；合并范围扩大，含并表' },
+];
 
 /* ---------- 四象限点位 ---------- */
 const points = [
@@ -160,6 +169,9 @@ const confidence = [
   { claim: '验证成本决定了跨领域的渗透顺序', level: '低', note: '与数据一致，但无直接检验；层内差异大于层间差异，削弱了「层」的解释力' },
   { claim: '人的验证能力会因自动化而退化，并反过来拖慢渗透', level: '中', note: '医疗与航空有纵向观察，工业软件未检验' },
   { claim: 'CAE 是 CAD 爆发的前置条件', level: '低', note: '纯推断，无任何直接证据' },
+  { claim: '海外工业软件增速的差异在层内，不在层间', level: '中高', note: '五家审计财报，五家区间重叠；但都是一次季度，未做时间序列' },
+  { claim: '中国工业软件增速的差异在层间，不在层内', level: '中', note: '三家 EDA 增速高度一致，但其中一家含并购、样本仅一个季度' },
+  { claim: '中国的分层由制裁与替代进度驱动，而非 AI 渗透', level: '低', note: '与数据方向一致，但没有直接证据能把两个驱动力拆开' },
   { claim: '中国可能跳过全流程补齐，直接进入 AI 原生', level: '低', note: '情景推演，不是预测' },
 ];
 
@@ -217,6 +229,11 @@ const sources = [
   'Veracode，2026 GenAI Code Security Report',
   'Menlo Ventures，2026: The State of Enterprise AI',
   'Google / Sundar Pichai，关于 75% 新代码由 AI 生成的公开表述，2026-04',
+  '华大九天 2026 年第三季度报告（301269），2026-10-29',
+  '广立微 2026 年第三季度报告（301095），2026-10-27',
+  '概伦电子 2026 年第三季度报告（688206），2026-10-30',
+  '中望软件 2026 年第三季度报告（688083）',
+  '索辰科技 2026 年第三季度报告（688507），2026-10-29',
   '华大九天 2025 年年报；刘伟平于第 26 届中国国际工业博览会表述，2026-10-12；HUG 2026',
   'Jay Vleeschhouwer，EDA Market Primer / DAC 2025 行业数据',
   'NVIDIA，Cosmos / Isaac / GR00T 相关发布（CES 2026、GTC 2026）',
@@ -728,7 +745,70 @@ const sources = [
   <!-- 六、中国的位置 -->
   <section class="border-t border-slate-200 py-12 dark:border-slate-800">
     <div class="container-prose">
-      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">六、中国的位置：双线并行，可能跳层</h2>
+      <h2 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">六、中国对照组：同一个分层，两个相反的结论</h2>
+      <p class="mt-3 max-w-3xl text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        把五家 A 股工业软件公司的 2026 Q3 单季数字补上之后，规律反过来了。
+      </p>
+
+      <div class="mt-6 overflow-x-auto overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800">
+        <table class="w-full min-w-[700px] text-left text-sm">
+          <thead class="bg-slate-50 dark:bg-slate-950/50">
+            <tr>
+              <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">公司</th>
+              <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">层</th>
+              <th class="px-4 py-3 text-right text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Q3 同比</th>
+              <th class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">口径与备注</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+            {cnVendors.map((c) => (
+              <tr class="bg-white align-top dark:bg-slate-900">
+                <td class="px-4 py-3 font-semibold text-slate-900 dark:text-slate-100">{c.co}</td>
+                <td class="px-4 py-3">
+                  <span class:list={[
+                    'rounded px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider',
+                    c.layer === 'EDA' ? 'bg-accent-100 text-accent-700 dark:bg-accent-950 dark:text-accent-300'
+                      : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300',
+                  ]}>{c.layer}</span>
+                </td>
+                <td class:list={[
+                  'px-4 py-3 text-right font-bold tabular-nums',
+                  c.ma ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400',
+                ]}>+{c.v.toFixed(2)}%{c.ma && <span class="ml-1 text-[10px] font-normal">含并购</span>}</td>
+                <td class="px-4 py-3 text-xs leading-relaxed text-slate-600 dark:text-slate-300">{c.note}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-6 grid gap-3 sm:grid-cols-2">
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <p class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">海外：层内差 ÷ 层间差</p>
+          <p class="mt-2 text-2xl font-bold tabular-nums text-accent-700 dark:text-accent-400">2.4×</p>
+          <p class="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-300">层内 13.5 pct，层间 5.6 pct。差异在层内 —— 「层」不是解释变量。</p>
+        </div>
+        <div class="rounded-2xl border border-accent-300 bg-accent-50 p-5 dark:border-accent-800 dark:bg-accent-950/30">
+          <p class="text-xs font-bold uppercase tracking-wider text-accent-700 dark:text-accent-400">中国：层内差 ÷ 层间差</p>
+          <p class="mt-2 text-2xl font-bold tabular-nums text-accent-700 dark:text-accent-400">0.12×</p>
+          <p class="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-300">层内 2.9 pct，层间 23.7 pct。差异在层间 —— 「层」在这里非常有效。</p>
+        </div>
+      </div>
+
+      <p class="mt-6 rounded-xl border-l-4 border-accent-500 bg-slate-50 p-4 text-sm font-medium leading-relaxed text-slate-800 dark:bg-slate-900 dark:text-slate-200">
+        <span class="font-bold">同一个统计现象，两套完全不同的成因。</span>
+        海外是「客户的技术采用节奏」在分层；中国是
+        <span class="font-bold">「制裁强度与国产替代进度」</span>在分层。
+        <br />
+        华大九天 29.82% 和广立微 32.71% 高度一致，说明它们被同一个外力推着走，不是各自的产品周期。
+        中望 7.61% 说明 CAD 没有这个外力。索辰 105.46% 是并表，不是需求。
+      </p>
+
+      <p class="mt-4 rounded-xl border-l-4 border-rose-500 bg-rose-50/70 p-4 text-sm font-medium leading-relaxed text-slate-800 dark:bg-rose-950/20 dark:text-slate-200">
+        直接推论：<span class="font-bold">把「验证成本」这套框架套到中国市场，是错的。</span>
+        中国 EDA 的高增长不来自 AI 渗透，来自替代率从 30% 到 85% 的爬坡 ——
+        这两件事的经济含义完全不同：前者是价值创造，后者是份额转移。
+      </p>
 
       <div class="mt-8 grid gap-4 sm:grid-cols-2">
         <div class="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
